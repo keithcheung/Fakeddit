@@ -7,10 +7,10 @@ import {
   Row,
   Col
 } from 'reactstrap';
-
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-
+import Test from './Test';
 export default class PostListing extends Component {
   render() {
     return (
@@ -23,7 +23,15 @@ export default class PostListing extends Component {
           >
             <Media>
               <Media body>
-                <Media heading>Media heading</Media>
+                <Media heading>
+                  {/* Pass ID through here, make call */}
+                  <Link
+                    to={{ pathname: '/about', state: { foo: 'bar' } }}
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    Media heading
+                  </Link>
+                </Media>
               </Media>
             </Media>
             <Row>
