@@ -50,7 +50,6 @@ const UserType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        console.log(parent);
         // Matches posts based on username
         return _.filter(posts, { name: parent.name });
       }
@@ -76,6 +75,7 @@ const PostType = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parent, args) {
+        // Match comments based on parent id
         return _.filter(comments, { uid: parent.id });
       }
     }
