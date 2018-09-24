@@ -7,7 +7,7 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,27 +15,33 @@ import { graphql } from 'react-apollo';
 import { getPosts } from '../queries/queries';
 
 class PostListing extends Component {
-  render() {
-    console.log(this.props.data);
-    return (
-      <Container>
-        <ListGroup>
+  displayPosts() {
+    const { data } = this.props;
+    if (data.loading) {
+      return (
+        <ListGroupItem>
+          <Media>Loading posts...</Media>
+        </ListGroupItem>
+      );
+    } else {
+      return data.posts.map(post => {
+        return (
           <ListGroupItem
             onClick={() => {
               console.log('clicked');
             }}
+            key={post.id}
+            value={post.id}
           >
             <Media>
-              <Media body>
-                <Media heading>
-                  {/* Pass ID through here, make call */}
-                  <Link
-                    to={{ pathname: '/about', state: { foo: 'bar' } }}
-                    style={{ textDecoration: 'none', color: 'black' }}
-                  >
-                    Media heading
-                  </Link>
-                </Media>
+              <Media heading>
+                {/* Pass ID through here, make call */}
+                <Link
+                  to={{ pathname: '/about', state: { foo: post.id } }}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  {post.heading}
+                </Link>
               </Media>
             </Media>
             <Row>
@@ -52,10 +58,15 @@ class PostListing extends Component {
               </Col>
             </Row>
           </ListGroupItem>
-          <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-          <ListGroupItem>Morbi leo risus</ListGroupItem>
-          <ListGroupItem>Porta ac consectetur ac</ListGroupItem>
-          <ListGroupItem>Vestibulum at eros</ListGroupItem>
+        );
+      });
+    }
+  }
+  render() {
+    return (
+      <Container>
+        <ListGroup style={{ marginTop: '2rem' }}>
+          {this.displayPosts()}
         </ListGroup>
       </Container>
     );

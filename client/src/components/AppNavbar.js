@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -10,9 +9,6 @@ import {
 } from 'reactstrap';
 
 export default class AppNavbar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>

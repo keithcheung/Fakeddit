@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import PostListing from './components/PostListing';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Test from './components/Test';
 import './index.css';
 
