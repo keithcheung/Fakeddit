@@ -5,38 +5,13 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLID,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } = graphql;
 
-var users = [
-  { name: 'keithcheung', id: '1' },
-  { name: 'jdizzle', id: '2' },
-  { name: 'ironman', id: '3' }
-];
-
-var posts = [
-  {
-    name: 'keithcheung',
-    heading: 'What it takes',
-    text: 'A lot of work',
-    date: Date.now(),
-    id: '4'
-  },
-  {
-    name: 'keithcheung',
-    heading: 'Where to go',
-    date: Date.now(),
-    text: 'Cali or bust',
-    id: '5'
-  },
-  {
-    name: 'jdizzle',
-    heading: 'What to do?',
-    date: Date.now(),
-    text: 'Sleep or cook :)',
-    id: '6'
-  }
-];
+const User = require('../models/user');
+const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 // @ UserType
 // - name: username
@@ -88,10 +63,6 @@ const PostType = new GraphQLObjectType({
 // - name: the name of the user who posted this comment
 // - text: text of the actual comment
 // - comments: [CommentType] of this comment
-var comments = [
-  { id: '7', uid: '4', name: 'jdizzle', text: 'What the heck' },
-  { id: '8', uid: '7', name: 'keithcheung', text: 'What?' }
-];
 const CommentType = new GraphQLObjectType({
   name: 'Comment',
   fields: () => ({
@@ -144,6 +115,65 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    // addAuthor to database
+    addUser: {
+      type: UserType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        // From the model
+        let user = new User({
+          name: args.name
+        });
+        // Check if there are duplicates
+        // mutation returns the data saved, this is where you'd save it to redux
+        return user.save();
+      }
+    },
+    addPost: {
+      type: PostType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        header: { type: new GraphQLNonNull(GraphQLString) },
+        text: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        const { name, header, text } = args;
+        const post = new Post({
+          name,
+          header,
+          text
+        });
+
+        return post.save();
+      }
+    },
+    addComment: {
+      type: CommentType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        uid: { type: new GraphQLNonNull(GraphQLString) },
+        text: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        const { name, uid, text } = args;
+        const comment = new Comment({
+          name,
+          uid,
+          text
+        });
+
+        return comment.save();
+      }
+    }
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 });
