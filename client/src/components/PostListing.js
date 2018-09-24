@@ -10,9 +10,13 @@ import {
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import Test from './Test';
-export default class PostListing extends Component {
+
+import { graphql } from 'react-apollo';
+import { getPosts } from '../queries/queries';
+
+class PostListing extends Component {
   render() {
+    console.log(this.props.data);
     return (
       <Container>
         <ListGroup>
@@ -57,3 +61,5 @@ export default class PostListing extends Component {
     );
   }
 }
+
+export default graphql(getPosts)(PostListing);

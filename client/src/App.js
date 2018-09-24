@@ -4,18 +4,27 @@ import PostListing from './components/PostListing';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Test from './components/Test';
 import './index.css';
+
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql'
+});
 // FontAwesome
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div>
-          <AppNavBar />
-          <Route exact path="/" component={PostListing} />
-          <Route path="/about" component={Test} />
-        </div>
-      </Router>
+      <ApolloProvider client={client}>
+        <Router>
+          <div>
+            <AppNavBar />
+            <Route exact path="/" component={PostListing} />
+            <Route path="/about" component={Test} />
+          </div>
+        </Router>
+      </ApolloProvider>
     );
   }
 }
