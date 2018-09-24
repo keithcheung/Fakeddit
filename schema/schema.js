@@ -26,7 +26,9 @@ const UserType = new GraphQLObjectType({
       type: new GraphQLList(PostType),
       resolve(parent, args) {
         // Matches posts based on username
-        return _.filter(posts, { name: parent.name });
+        // return _.filter(posts, { name: parent.name });
+        console.log(parent.name);
+        return Post.find({ name: parent.name });
       }
     }
   })
@@ -51,7 +53,8 @@ const PostType = new GraphQLObjectType({
       type: new GraphQLList(CommentType),
       resolve(parent, args) {
         // Match comments based on parent id
-        return _.filter(comments, { uid: parent.id });
+        // return _.filter(comments, { uid: parent.id });
+        return Comment.find({ uid: parent.id });
       }
     }
   })
@@ -73,7 +76,8 @@ const CommentType = new GraphQLObjectType({
     comments: {
       type: GraphQLList(CommentType),
       resolve(parent, args) {
-        return _.filter(comments, { uid: parent.id });
+        // return _.filter(comments, { uid: parent.id });
+        return Comment.find({ uid: parent.id });
       }
     }
   })
@@ -87,14 +91,15 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         // code to get data
-        return _.find(users, { id: args.id });
+        // return _.find(users, { id: args.id });
+        return User.findById(args.id);
       }
     },
 
     users: {
       type: new GraphQLList(UserType),
       resolve(parent, args) {
-        return users;
+        return User.find({});
       }
     },
 
@@ -102,14 +107,14 @@ const RootQuery = new GraphQLObjectType({
       type: PostType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return _.find(posts, { id: args.id });
+        return Post.findById(args.id);
       }
     },
 
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        return posts;
+        return Post.find({});
       }
     }
   }
