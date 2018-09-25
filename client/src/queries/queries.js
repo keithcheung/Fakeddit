@@ -10,4 +10,17 @@ const getPosts = gql`
   }
 `;
 
-export { getPosts };
+const getPost = gql`
+  query($id: ID) {
+    post(id: $id) {
+      heading
+      name
+      text
+      comments {
+        text
+      }
+    }
+  }
+`;
+
+export { getPosts, getPost };

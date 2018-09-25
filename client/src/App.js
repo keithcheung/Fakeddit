@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import PostListing from './components/PostListing';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Test from './components/Test';
+import Post from './components/Post';
 import './index.css';
 
 import ApolloClient from 'apollo-boost';
@@ -21,8 +21,7 @@ class App extends Component {
           <div>
             <AppNavBar />
             <Route exact path="/" component={PostListing} />
-            <Route path="/post/:postId" component={Test} />
-            <Route path="/user/:username" component={User} />
+            <Route path="/post/:postId" component={Post} />
           </div>
         </Router>
       </ApolloProvider>
