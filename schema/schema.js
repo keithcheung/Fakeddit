@@ -50,6 +50,14 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return Post.find({});
       }
+    },
+
+    comment: {
+      type: CommentType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return Comment.findById(args.id);
+      }
     }
   }
 });
