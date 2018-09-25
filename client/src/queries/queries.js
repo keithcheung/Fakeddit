@@ -23,9 +23,14 @@ const getPost = gql`
   }
 `;
 
-// const getComment = gql`
-//   query($id: ID) {
-//     comment
-//   }
-// `;
-export { getPosts, getPost };
+const getComment = gql`
+  query($id: ID) {
+    comment(id: $id) {
+      text
+      comments {
+        id
+      }
+    }
+  }
+`;
+export { getPosts, getPost, getComment };
