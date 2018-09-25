@@ -21,7 +21,8 @@ class App extends Component {
           <div>
             <AppNavBar />
             <Route exact path="/" component={PostListing} />
-            <Route path="/post" component={Test} />
+            <Route path="/post/:postId" component={Test} />
+            <Route path="/user/:username" component={User} />
           </div>
         </Router>
       </ApolloProvider>

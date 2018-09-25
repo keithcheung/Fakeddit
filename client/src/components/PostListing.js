@@ -37,7 +37,7 @@ class PostListing extends Component {
               <Media heading>
                 {/* Pass ID through here, make call */}
                 <Link
-                  to={{ pathname: `/post/${post.id}`, state: { foo: post.id } }}
+                  to={{ pathname: `/post/${post.id}` }}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   {post.heading}

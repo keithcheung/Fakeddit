@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 
 export default class Test extends Component {
+  constructor({ match }) {
+    super();
+    this.state = {
+      postId: match.params.postId
+    };
+  }
   render() {
-    const { foo } = this.props.location.state;
-    console.log(foo);
     return (
       <Container>
-        <h1>{foo}</h1>
+        <h1>{this.state.postId}</h1>
       </Container>
     );
   }
