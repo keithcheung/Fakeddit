@@ -17,10 +17,15 @@ const getPost = gql`
       name
       text
       comments {
-        text
+        id
       }
     }
   }
 `;
 
+// const getComment = gql`
+//   query($id: ID) {
+//     comment
+//   }
+// `;
 export { getPosts, getPost };

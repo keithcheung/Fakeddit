@@ -18,6 +18,8 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { RingLoader } from 'react-spinners';
 
+import CommentContainer from './CommentContainer';
+
 const override = css`
   display: block;
   margin: 5rem auto;
@@ -32,7 +34,7 @@ class Post extends Component {
     };
   }
   displayPost() {
-    const { heading, text, name } = this.props.data.post;
+    const { heading, text, name, comments } = this.props.data.post;
     return (
       <div>
         <Media>
@@ -54,6 +56,9 @@ class Post extends Component {
             <FontAwesomeIcon icon={faThumbsDown} />
           </Col>
         </Row>
+        <ListGroup>
+          <CommentContainer comments={comments} />
+        </ListGroup>
       </div>
     );
   }
