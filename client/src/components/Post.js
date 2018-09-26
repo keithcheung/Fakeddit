@@ -10,8 +10,8 @@ import {
   Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { getPost } from '../queries/queries';
-import { graphql } from 'react-apollo';
+import { getPost, addComment } from '../queries/queries';
+import { graphql, compose } from 'react-apollo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +34,7 @@ class Post extends Component {
     };
   }
   displayPost() {
-    const { heading, text, name, comments } = this.props.data.post;
+    const { heading, text } = this.props.data.post;
     return (
       <div>
         <Media>
@@ -50,18 +50,16 @@ class Post extends Component {
               style={{ marginRight: '1rem' }}
               onClick={e => {
                 e.stopPropagation();
-                console.log('clicked icon');
+                console.log(this.state.postId);
               }}
             />
             <FontAwesomeIcon icon={faThumbsDown} />
           </Col>
         </Row>
-        <ListGroup>
-          <CommentContainer comments={comments} />
-        </ListGroup>
       </div>
     );
   }
+
   render() {
     const { loading } = this.props.data;
     if (loading) {
@@ -75,6 +73,7 @@ class Post extends Component {
         />
       );
     } else {
+      const { comments } = this.props.data.post;
       return (
         <Container>
           <Button
@@ -96,18 +95,25 @@ class Post extends Component {
           <ListGroup style={{ marginTop: '2rem' }}>
             <ListGroupItem>{this.displayPost()}</ListGroupItem>
           </ListGroup>
+          <ListGroup>
+            <CommentContainer comments={comments} />
+          </ListGroup>
         </Container>
       );
     }
   }
 }
 
-export default graphql(getPost, {
-  options: props => {
-    return {
-      variables: {
-        id: props.location.state.id
-      }
-    };
-  }
-})(Post);
+export default compose(
+  graphql(getPost, {
+    name: 'data',
+    options: props => {
+      return {
+        variables: {
+          id: props.location.state.id
+        }
+      };
+    }
+  }),
+  graphql(addComment, { name: 'addComment' })
+)(Post);

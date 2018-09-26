@@ -7,9 +7,12 @@ import './index.css';
 
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql'
+  uri: 'http://localhost:5000/graphql',
+  cache
 });
 // FontAwesome
 

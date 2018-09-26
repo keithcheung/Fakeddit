@@ -103,7 +103,7 @@ const Mutation = new GraphQLObjectType({
       type: CommentType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
-        uid: { type: new GraphQLNonNull(GraphQLString) },
+        uid: { type: new GraphQLNonNull(GraphQLID) },
         text: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
