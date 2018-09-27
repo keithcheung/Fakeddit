@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
+
 import TextField from '@material-ui/core/TextField';
 import { addComment, getComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
+// CommentTextInput
 class CommentTextInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      response: ''
+      response: '',
+      toggle: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit() {
     const { response } = this.state;
-    debugger;
     const { id } = this.props;
     const name = 'kcheung41';
-    this.props.handleComment();
     // this.props.addComment({
     //   variables: { name: name, uid: id, text: response },
     //   refetchQueries: [{ query: getComment }],
@@ -53,5 +55,9 @@ class CommentTextInput extends Component {
     );
   }
 }
+
+CommentTextInput.propTypes = {
+  id: PropTypes.string
+};
 
 export default graphql(addComment, { name: 'addComment' })(CommentTextInput);

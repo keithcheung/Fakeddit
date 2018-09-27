@@ -9,7 +9,6 @@ import CommentTextInput from './CommentTextInput';
 class Comment extends Component {
   constructor(props) {
     super(props);
-    this.handleComment = this.handleComment.bind(this);
     const { loading } = props.data;
     if (!loading) {
       this.state = {
@@ -40,7 +39,32 @@ class Comment extends Component {
       );
     }
   }
+  togglePost = () => {
+    const { toggle } = this.state;
+    this.setState({ toggle: !toggle });
+  };
 
+  maybeRenderTextInput() {
+    const { toggle, text } = this.state;
+    const { id } = this.props.comment;
+    if (toggle) {
+      return (
+        <div>
+          {text}
+          <CommentTextInput id={id} />
+        </div>
+      );
+    } else {
+      return (
+        <Row>
+          <Col xs="10">{text}</Col>
+          <Col xs="2">
+            <p onClick={this.togglePost}>reply</p>
+          </Col>
+        </Row>
+      );
+    }
+  }
   render() {
     const { loading } = this.props.data;
     const { id } = this.props.comment;
@@ -50,9 +74,8 @@ class Comment extends Component {
       const { text } = this.state;
       return (
         <div>
-          {text}
+          {this.maybeRenderTextInput()}
           {this.displayComments()}
-          <CommentTextInput id={id} />
         </div>
       );
     }
