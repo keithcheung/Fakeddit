@@ -61,7 +61,7 @@ class Comment extends Component {
         <div>
           {text}
           <p onClick={this.togglePost}>reply</p>
-          <p> delete </p>
+          <p onClick={() => console.log(id)}> delete </p>
         </div>
       );
     }
