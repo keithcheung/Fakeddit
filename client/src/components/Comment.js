@@ -27,6 +27,7 @@ class Comment extends Component {
       };
     }
   }
+
   displayComments() {
     const { comments } = this.state;
     if (!comments) {
@@ -39,6 +40,7 @@ class Comment extends Component {
       );
     }
   }
+
   togglePost = () => {
     const { toggle } = this.state;
     this.setState({ toggle: !toggle });
@@ -51,20 +53,20 @@ class Comment extends Component {
       return (
         <div>
           {text}
-          <CommentTextInput id={id} />
+          <CommentTextInput id={id} onConfirm={this.togglePost} />
         </div>
       );
     } else {
       return (
-        <Row>
-          <Col xs="10">{text}</Col>
-          <Col xs="2">
-            <p onClick={this.togglePost}>reply</p>
-          </Col>
-        </Row>
+        <div>
+          {text}
+          <p onClick={this.togglePost}>reply</p>
+          <p> delete </p>
+        </div>
       );
     }
   }
+
   render() {
     const { loading } = this.props.data;
     const { id } = this.props.comment;

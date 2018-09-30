@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroupItem, Row, Col, Button } from 'reactstrap';
+import { ListGroupItem } from 'reactstrap';
 import Comment from './Comment';
 import { css } from 'react-emotion';
 
@@ -24,7 +24,7 @@ class CommentContainer extends Component {
       return comments.map(comment => {
         return (
           <ListGroupItem className={commentSection} value={comment.id}>
-            <Comment comment={comment} />
+            <Comment comment={comment} onSubmit={this.onSubmit} />
           </ListGroupItem>
         );
       });

@@ -20,6 +20,8 @@ class CommentTextInput extends Component {
     const { response } = this.state;
     const { id } = this.props;
     const name = 'kcheung41';
+    this.props.onConfirm();
+
     // this.props.addComment({
     //   variables: { name: name, uid: id, text: response },
     //   refetchQueries: [{ query: getComment }],
