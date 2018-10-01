@@ -43,4 +43,13 @@ const addComment = gql`
   }
 `;
 
-export { getPosts, getPost, getComment, addComment };
+const removeComment = gql`
+  mutation($id: ID!) {
+    removeComment(id: $id) {
+      uid
+      id
+    }
+  }
+`;
+
+export { getPosts, getPost, getComment, addComment, removeComment };

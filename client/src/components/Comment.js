@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroup, Row, Col, Button } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
-import { getComment, addComment } from '../queries/queries';
+import { getComment, addComment, removeComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
@@ -46,6 +46,15 @@ class Comment extends Component {
     this.setState({ toggle: !toggle });
   };
 
+  handleDeleteComment = id => {
+    this.props.removeComment({
+      variables: { id: id },
+      refetchQueries: [{ query: getComment }],
+      awaitRefetchQueries: true
+    });
+    this.forceUpdate();
+  };
+
   maybeRenderTextInput() {
     const { toggle, text } = this.state;
     const { id } = this.props.comment;
@@ -61,7 +70,13 @@ class Comment extends Component {
         <div>
           {text}
           <p onClick={this.togglePost}>reply</p>
-          <p onClick={() => console.log(id)}> delete </p>
+          <p
+            onClick={() => {
+              this.handleDeleteComment(id);
+            }}
+          >
+            delete{' '}
+          </p>
         </div>
       );
     }
@@ -84,12 +99,15 @@ class Comment extends Component {
   }
 }
 
-export default graphql(getComment, {
-  options: props => {
-    return {
-      variables: {
-        id: props.comment.id
-      }
-    };
-  }
-})(Comment);
+export default compose(
+  graphql(getComment, {
+    options: props => {
+      return {
+        variables: {
+          id: props.comment.id
+        }
+      };
+    }
+  }),
+  graphql(removeComment, { name: 'removeComment' })
+)(Comment);
