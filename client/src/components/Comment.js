@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroup, Row, Col, Button } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
-import { getComment, addComment, removeComment } from '../queries/queries';
+import { getComment, addComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
@@ -28,6 +28,10 @@ class Comment extends Component {
     }
   }
 
+  handleDeleteComment = id => {
+    this.props.handleDeleteComment(id);
+  };
+
   displayComments() {
     const { comments } = this.state;
     if (!comments) {
@@ -35,7 +39,10 @@ class Comment extends Component {
     } else {
       return (
         <ListGroup style={{ border: '0 none' }}>
-          <CommentContainer comments={comments} />
+          <CommentContainer
+            handleDeleteComment={this.handleDeleteComment}
+            comments={comments}
+          />
         </ListGroup>
       );
     }
@@ -44,15 +51,6 @@ class Comment extends Component {
   togglePost = () => {
     const { toggle } = this.state;
     this.setState({ toggle: !toggle });
-  };
-
-  handleDeleteComment = id => {
-    this.props.removeComment({
-      variables: { id: id },
-      refetchQueries: [{ query: getComment }],
-      awaitRefetchQueries: true
-    });
-    this.forceUpdate();
   };
 
   maybeRenderTextInput() {
@@ -108,6 +106,5 @@ export default compose(
         }
       };
     }
-  }),
-  graphql(removeComment, { name: 'removeComment' })
+  })
 )(Comment);

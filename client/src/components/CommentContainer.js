@@ -15,6 +15,10 @@ class CommentContainer extends Component {
     super(props);
   }
 
+  handleDeleteComment = id => {
+    this.props.handleDeleteComment(id);
+  };
+
   render() {
     const { comments } = this.props;
 
@@ -24,7 +28,11 @@ class CommentContainer extends Component {
       return comments.map(comment => {
         return (
           <ListGroupItem className={commentSection} value={comment.id}>
-            <Comment comment={comment} onSubmit={this.onSubmit} />
+            <Comment
+              comment={comment}
+              onSubmit={this.onSubmit}
+              handleDeleteComment={this.handleDeleteComment}
+            />
           </ListGroupItem>
         );
       });

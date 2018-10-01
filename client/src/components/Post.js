@@ -10,7 +10,7 @@ import {
   Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { getPost, addComment } from '../queries/queries';
+import { getPost, addComment, removeComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -60,6 +60,16 @@ class Post extends Component {
     );
   }
 
+  handleDeleteComment = id => {
+    console.log('pop');
+    this.props.removeComment({
+      variables: { id: id },
+      refetchQueries: [{ query: getPost }],
+      awaitRefetchQueries: true
+    });
+    this.forceUpdate();
+  };
+
   render() {
     const { loading } = this.props.data;
     if (loading) {
@@ -74,6 +84,7 @@ class Post extends Component {
       );
     } else {
       const { comments } = this.props.data.post;
+      debugger;
       return (
         <Container>
           <Button
@@ -96,7 +107,10 @@ class Post extends Component {
             <ListGroupItem>{this.displayPost()}</ListGroupItem>
           </ListGroup>
           <ListGroup>
-            <CommentContainer comments={comments} />
+            <CommentContainer
+              comments={comments}
+              handleDeleteComment={this.handleDeleteComment}
+            />
           </ListGroup>
         </Container>
       );
@@ -115,5 +129,6 @@ export default compose(
       };
     }
   }),
-  graphql(addComment, { name: 'addComment' })
+  graphql(addComment, { name: 'addComment' }),
+  graphql(removeComment, { name: 'removeComment' })
 )(Post);
