@@ -84,7 +84,6 @@ class Post extends Component {
       );
     } else {
       const { comments } = this.props.data.post;
-      debugger;
       return (
         <Container>
           <Button

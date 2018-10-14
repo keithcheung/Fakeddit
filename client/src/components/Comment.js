@@ -41,6 +41,7 @@ class Comment extends Component {
         <ListGroup style={{ border: '0 none' }}>
           <CommentContainer
             handleDeleteComment={this.handleDeleteComment}
+            postId={this.props.postId}
             comments={comments}
           />
         </ListGroup>
@@ -53,6 +54,16 @@ class Comment extends Component {
     this.setState({ toggle: !toggle });
   };
 
+  handleConfirm = newComment => {
+    const { name, response, id } = newComment;
+    this.props.addComment({
+      variables: { name: name, uid: id, text: response },
+      refetchQueries: [{ query: getComment, variables: { id } }]
+    });
+    // this.props.addComment({newComment);
+    this.togglePost();
+  };
+
   maybeRenderTextInput() {
     const { toggle, text } = this.state;
     const { id } = this.props.comment;
@@ -60,7 +71,11 @@ class Comment extends Component {
       return (
         <div>
           {text}
-          <CommentTextInput id={id} onConfirm={this.togglePost} />
+          <CommentTextInput
+            id={id}
+            onConfirm={this.handleConfirm}
+            postId={this.props.postId}
+          />
         </div>
       );
     } else {
@@ -106,5 +121,8 @@ export default compose(
         }
       };
     }
+  }),
+  graphql(addComment, {
+    name: 'addComment'
   })
 )(Comment);
