@@ -11,10 +11,6 @@ const commentSection = css`
   }
 `;
 class CommentContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleDeleteComment = id => {
     this.props.handleDeleteComment(id);
   };

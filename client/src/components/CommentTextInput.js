@@ -3,17 +3,17 @@ import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
-import { addComment, getComment } from '../queries/queries';
-import { graphql, compose } from 'react-apollo';
+import { addComment } from '../queries/queries';
+import { graphql } from 'react-apollo';
 
 // CommentTextInput
 class CommentTextInput extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.setState({
       response: '',
       toggle: false
-    };
+    });
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit() {

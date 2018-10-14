@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, Row, Col, Button } from 'reactstrap';
-import TextField from '@material-ui/core/TextField';
+import { ListGroup } from 'reactstrap';
 import { getComment, addComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
@@ -97,11 +96,9 @@ class Comment extends Component {
 
   render() {
     const { loading } = this.props.data;
-    const { id } = this.props.comment;
     if (loading) {
       return null;
     } else {
-      const { text } = this.state;
       return (
         <div>
           {this.maybeRenderTextInput()}
