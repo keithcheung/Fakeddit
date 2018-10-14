@@ -20,10 +20,10 @@ class Comment extends Component {
   componentWillReceiveProps(newProps) {
     const { loading } = newProps.data;
     if (!loading) {
-      this.state = {
+      this.setState({
         text: newProps.data.comment.text,
         comments: newProps.data.comment.comments
-      };
+      });
     }
   }
 

@@ -10,7 +10,7 @@ import {
   Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { getPost, addComment, removeComment } from '../queries/queries';
+import { getPost, removeComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -62,12 +62,11 @@ class Post extends Component {
 
   handleDeleteComment = id => {
     console.log('pop');
+    const postId = this.props.location.state.id;
     this.props.removeComment({
       variables: { id: id },
-      refetchQueries: [{ query: getPost }],
-      awaitRefetchQueries: true
+      refetchQueries: [{ query: getPost, variables: { id: postId } }]
     });
-    this.forceUpdate();
   };
 
   render() {
@@ -128,6 +127,5 @@ export default compose(
       };
     }
   }),
-  graphql(addComment, { name: 'addComment' }),
   graphql(removeComment, { name: 'removeComment' })
 )(Post);
