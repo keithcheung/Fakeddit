@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
-import PostListing from './components/PostListing';
+import PostListing from './components/post/PostListing';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Post from './components/Post';
+import Post from './components/post/Post';
 import './index.css';
 
 import ApolloClient from 'apollo-boost';

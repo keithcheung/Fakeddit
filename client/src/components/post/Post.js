@@ -10,7 +10,7 @@ import {
   Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { getPost } from '../queries/queries';
+import { getPost } from '../../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { RingLoader } from 'react-spinners';
 
-import CommentContainer from './CommentContainer';
+import CommentContainer from '../comment/CommentContainer';
 
 const override = css`
   display: block;

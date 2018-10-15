@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { graphql } from 'react-apollo';
-import { getPosts } from '../queries/queries';
+import { getPosts } from '../../queries/queries';
 
 import { RingLoader } from 'react-spinners';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'reactstrap';
-import { getComment, addComment, removeComment } from '../queries/queries';
+import { getComment, addComment, removeComment } from '../../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
