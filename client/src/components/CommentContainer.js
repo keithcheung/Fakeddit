@@ -11,10 +11,6 @@ const commentSection = css`
   }
 `;
 class CommentContainer extends Component {
-  handleDeleteComment = id => {
-    this.props.handleDeleteComment(id);
-  };
-
   render() {
     const { comments } = this.props;
 
@@ -25,9 +21,9 @@ class CommentContainer extends Component {
         return (
           <ListGroupItem className={commentSection} value={comment.id}>
             <Comment
+              uid={comment.uid}
               comment={comment}
               onSubmit={this.onSubmit}
-              handleDeleteComment={this.handleDeleteComment}
             />
           </ListGroupItem>
         );

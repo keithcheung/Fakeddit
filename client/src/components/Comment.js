@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'reactstrap';
-import { getComment, addComment } from '../queries/queries';
+import { getComment, addComment, removeComment } from '../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
@@ -10,10 +10,11 @@ class Comment extends Component {
     super(props);
     const { loading } = props.data;
     if (!loading) {
-      this.state = {
+      this.setState({
         text: props.data.comment.text,
+        uid: props.data.comment.uid,
         comments: props.data.comment.comments
-      };
+      });
     }
   }
   // have to update text like this otherwise it was undefined
@@ -21,6 +22,7 @@ class Comment extends Component {
     const { loading } = newProps.data;
     if (!loading) {
       this.setState({
+        uid: newProps.data.comment.uid,
         text: newProps.data.comment.text,
         comments: newProps.data.comment.comments
       });
@@ -28,7 +30,11 @@ class Comment extends Component {
   }
 
   handleDeleteComment = id => {
-    this.props.handleDeleteComment(id);
+    const { uid } = this.state;
+    this.props.removeComment({
+      variables: { id: id },
+      refetchQueries: [{ query: getComment, variables: { id: uid } }]
+    });
   };
 
   displayComments() {
@@ -121,5 +127,8 @@ export default compose(
   }),
   graphql(addComment, {
     name: 'addComment'
+  }),
+  graphql(removeComment, {
+    name: 'removeComment'
   })
 )(Comment);

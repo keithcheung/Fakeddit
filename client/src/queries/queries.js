@@ -27,6 +27,7 @@ const getComment = gql`
   query($id: ID) {
     comment(id: $id) {
       text
+      uid
       comments {
         id
       }
