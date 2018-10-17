@@ -13,12 +13,17 @@ import { Link } from 'react-router-dom';
 import { getPost } from '../../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
+import Modal from '@material-ui/core/Modal';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { RingLoader } from 'react-spinners';
 
 import CommentContainer from '../comment/CommentContainer';
+import PostModalContent from './PostModalContent';
+
+import styled from 'styled-components';
 
 const override = css`
   display: block;
@@ -26,37 +31,84 @@ const override = css`
   border-color: red;
 `;
 
+const responseModal = css`
+  width: 50%;
+  height: 50%;
+  background-color: #ffffff;
+`;
+
+const SpreadedContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #ffffff;
+`;
+
 class Post extends Component {
   constructor({ match }) {
     super();
     this.state = {
-      postId: match.params.postId
+      postId: match.params.postId,
+      open: false
     };
+    this.handleClose = this.handleClose.bind(this);
+    this.renderResponseModal = this.renderResponseModal.bind(this);
   }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+  renderResponseModal() {
+    this.setState({ open: true });
+  }
+
   displayPost() {
     const { heading, text } = this.props.data.post;
     return (
-      <div>
-        <Media>
-          <Media body>
-            <Media heading>{heading}</Media>
-            {text}
+      <SpreadedContainer>
+        <div>
+          <Media>
+            <Media body>
+              <Media heading>{heading}</Media>
+              {text}
+            </Media>
           </Media>
-        </Media>
-        <Row>
-          <Col sm={{ size: 'auto', offset: 0.5 }}>
-            <FontAwesomeIcon
-              icon={faThumbsUp}
-              style={{ marginRight: '1rem' }}
-              onClick={e => {
-                e.stopPropagation();
-                console.log(this.state.postId);
-              }}
-            />
-            <FontAwesomeIcon icon={faThumbsDown} />
-          </Col>
-        </Row>
-      </div>
+          <Row>
+            <Col sm={{ size: 'auto', offset: 0.5 }}>
+              <FontAwesomeIcon
+                icon={faThumbsUp}
+                style={{ marginRight: '1rem' }}
+                onClick={e => {
+                  e.stopPropagation();
+                  console.log(this.state.postId);
+                }}
+              />
+              <FontAwesomeIcon icon={faThumbsDown} />
+            </Col>
+          </Row>
+        </div>
+        <Button color="primary" onClick={this.renderResponseModal.bind(this)}>
+          Reply
+        </Button>
+      </SpreadedContainer>
     );
   }
 
@@ -80,7 +132,7 @@ class Post extends Component {
             style={{
               marginTop: '2rem'
             }}
-            color="primary"
+            color="secondary"
           >
             <Link
               to="/"
@@ -98,6 +150,18 @@ class Post extends Component {
           <ListGroup>
             <CommentContainer comments={comments} />
           </ListGroup>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <CenterContainer>
+              <div className={responseModal}>
+                <PostModalContent />
+              </div>
+            </CenterContainer>
+          </Modal>
         </Container>
       );
     }
