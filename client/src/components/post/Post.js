@@ -53,14 +53,6 @@ const CenterContainer = styled.div`
   width: 100%;
 `;
 
-const ModalContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  background-color: #ffffff;
-`;
-
 class Post extends Component {
   constructor({ match }) {
     super();
@@ -158,7 +150,10 @@ class Post extends Component {
           >
             <CenterContainer>
               <div className={responseModal}>
-                <PostModalContent />
+                <PostModalContent
+                  handleClose={this.handleClose}
+                  postId={this.state.postId}
+                />
               </div>
             </CenterContainer>
           </Modal>
