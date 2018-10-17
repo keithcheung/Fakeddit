@@ -126,6 +126,17 @@ const Mutation = new GraphQLObjectType({
       resolve(parent, args) {
         return Comment.findOneAndRemove({ _id: args.id });
       }
+    },
+
+    editComment: {
+      type: CommentType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        text: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        return Comment.findOneAndUpdate({ _id: args.id }, { text: args.text });
+      }
     }
   }
 });
