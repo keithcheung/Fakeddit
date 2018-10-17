@@ -53,4 +53,12 @@ const removeComment = gql`
   }
 `;
 
+const editComment = gql`
+  mutation($id: ID!, $text: String!) {
+    editComment(id: $id, text: $text) {
+      text
+    }
+  }
+`;
+
 export { getPosts, getPost, getComment, addComment, removeComment };
