@@ -140,7 +140,7 @@ class Post extends Component {
             <ListGroupItem>{this.displayPost()}</ListGroupItem>
           </ListGroup>
           <ListGroup>
-            <CommentContainer comments={comments} />
+            <CommentContainer comments={comments} postId={this.state.postId} />
           </ListGroup>
           <Modal
             aria-labelledby="simple-modal-title"

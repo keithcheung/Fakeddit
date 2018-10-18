@@ -12,7 +12,7 @@ const commentSection = css`
 `;
 class CommentContainer extends Component {
   render() {
-    const { comments } = this.props;
+    const { comments, postId } = this.props;
 
     if (!comments) return null;
     // map through all comments
@@ -24,6 +24,7 @@ class CommentContainer extends Component {
               uid={comment.uid}
               comment={comment}
               onSubmit={this.onSubmit}
+              postId={postId}
             />
           </ListGroupItem>
         );

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'reactstrap';
-import { getComment, addComment, removeComment } from '../../queries/queries';
+import {
+  getComment,
+  addComment,
+  removeComment,
+  getPost
+} from '../../queries/queries';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
@@ -30,10 +35,14 @@ class Comment extends Component {
   }
 
   handleDeleteComment = id => {
+    const { postId } = this.props;
     const { uid } = this.state;
     this.props.removeComment({
       variables: { id: id },
-      refetchQueries: [{ query: getComment, variables: { id: uid } }]
+      refetchQueries: [
+        { query: getComment, variables: { id: uid } },
+        { query: getPost, variables: { id: postId } }
+      ]
     });
   };
 

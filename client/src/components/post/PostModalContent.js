@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 
 import { graphql } from 'react-apollo';
-import { addComment } from '../../queries/queries';
+import { addComment, getPost } from '../../queries/queries';
 import TextField from '@material-ui/core/TextField';
 
 import styled from 'styled-components';
@@ -23,6 +23,28 @@ const PostModalContainer = styled.div`
   height: 100%;
 `;
 class PostModalContent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { comment: '', name: 'kcheung' };
+    this.handleSubmitComment = this.handleSubmitComment.bind(this);
+    this.onCommentChange = this.onCommentChange.bind(this);
+  }
+
+  handleSubmitComment() {
+    const { comment, name } = this.state;
+    const { postId } = this.props;
+
+    this.props.addComment({
+      variables: { name: name, uid: postId, text: comment },
+      refetchQueries: [{ query: getPost, variables: { id: postId } }]
+    });
+    this.props.handleClose();
+  }
+
+  onCommentChange(event) {
+    this.setState({ comment: event.target.value });
+  }
+
   render() {
     return (
       <PostModalContainer>
@@ -34,9 +56,12 @@ class PostModalContent extends Component {
           rowsMax="6"
           margin="normal"
           variant="outlined"
+          onChange={event => this.onCommentChange(event)}
         />
         <ButtonWrapper>
-          <Button color="primary">Comment</Button>
+          <Button color="primary" onClick={this.handleSubmitComment}>
+            Comment
+          </Button>
           <Button color="secondary" onClick={this.props.handleClose}>
             Cancel
           </Button>
@@ -46,4 +71,4 @@ class PostModalContent extends Component {
   }
 }
 
-export default graphql(addComment)(PostModalContent);
+export default graphql(addComment, { name: 'addComment' })(PostModalContent);
