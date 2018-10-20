@@ -13,13 +13,21 @@ import CommentTextInput from './CommentTextInput';
 class Comment extends Component {
   constructor(props) {
     super(props);
+
+    this.handleDeleteComment = this.handleDeleteComment.bind(this);
+    this.displayComments = this.displayComments.bind(this);
+    this.togglePost = this.togglePost.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
+    this.maybeRenderTextInput = this.maybeRenderTextInput.bind(this);
     const { loading } = props.data;
+    this.state = { toogle: false };
     if (!loading) {
-      this.setState({
+      this.state = {
         text: props.data.comment.text,
         uid: props.data.comment.uid,
-        comments: props.data.comment.comments
-      });
+        comments: props.data.comment.comments,
+        toggle: false
+      };
     }
   }
   // have to update text like this otherwise it was undefined
@@ -102,7 +110,7 @@ class Comment extends Component {
               this.handleDeleteComment(id);
             }}
           >
-            delete{' '}
+            delete
           </p>
         </div>
       );
