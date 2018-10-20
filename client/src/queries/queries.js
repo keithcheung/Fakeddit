@@ -28,6 +28,7 @@ const getComment = gql`
     comment(id: $id) {
       text
       uid
+      id
       comments {
         id
       }
@@ -61,4 +62,11 @@ const editComment = gql`
   }
 `;
 
-export { getPosts, getPost, getComment, addComment, removeComment };
+export {
+  getPosts,
+  getPost,
+  getComment,
+  addComment,
+  removeComment,
+  editComment
+};
