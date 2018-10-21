@@ -6,23 +6,62 @@ import {
   Container,
   Media,
   Row,
-  Col
+  Col,
+  Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Modal from '@material-ui/core/Modal';
+import TextField from '@material-ui/core/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
-import { graphql } from 'react-apollo';
-import { getPosts } from '../../queries/queries';
+import { graphql, compose } from 'react-apollo';
+import { getPosts, addPost } from '../../queries/queries';
 
 import { RingLoader } from 'react-spinners';
+import styled from 'styled-components';
+
+const PostBtnContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  padding-top: 2rem;
+  padding-right: 2rem;
+`;
 
 const override = css`
   display: block;
   margin: 5rem auto;
   border-color: red;
 `;
+
+const responseModal = css`
+  width: 50%;
+  height: 50%;
+  background-color: #ffffff;
+  padding: 1.5rem;
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
+const ModalBtnContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1.5rem;
+`;
+
 class PostListing extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false, heading: '', text: '' };
+    this.displayPosts = this.displayPosts.bind(this);
+  }
   displayPosts() {
     const { data } = this.props;
 
@@ -66,6 +105,22 @@ class PostListing extends Component {
       );
     });
   }
+
+  togglePostModal = () => {
+    const { open } = this.state;
+    this.setState({ open: !open });
+  };
+
+  addPost = () => {
+    const { heading, text } = this.state;
+    debugger;
+    this.props.addPost({
+      variables: { name: 'keith', heading, text },
+      refetchQueries: [{ query: getPosts }]
+    });
+    this.togglePostModal();
+  };
+
   render() {
     const { loading } = this.props.data;
     if (loading) {
@@ -81,13 +136,63 @@ class PostListing extends Component {
     } else {
       return (
         <Container>
+          <PostBtnContainer>
+            <Button color="primary" onClick={this.togglePostModal}>
+              Post
+            </Button>
+          </PostBtnContainer>
           <ListGroup style={{ marginTop: '2rem' }}>
             {this.displayPosts()}
           </ListGroup>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <CenterContainer>
+              <div className={responseModal}>
+                <TextField
+                  id="outlined-multiline-flexible"
+                  fullWidth={true}
+                  label="Title"
+                  rowsMax="6"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={e => {
+                    this.setState({ heading: e.target.value });
+                  }}
+                />
+                <TextField
+                  id="outlined-multiline-flexible"
+                  fullWidth={true}
+                  label="Content"
+                  multiline
+                  rowsMax="6"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={e => {
+                    this.setState({ text: e.target.value });
+                  }}
+                />
+                <ModalBtnContainer>
+                  <Button color="primary" onClick={this.addPost}>
+                    Post
+                  </Button>
+                  <Button color="seconday" onClick={this.togglePostModal}>
+                    Cancel
+                  </Button>
+                </ModalBtnContainer>
+              </div>
+            </CenterContainer>
+          </Modal>
         </Container>
       );
     }
   }
 }
 
-export default graphql(getPosts)(PostListing);
+export default compose(
+  graphql(getPosts, { name: 'data' }),
+  graphql(addPost, { name: 'addPost' })
+)(PostListing);
