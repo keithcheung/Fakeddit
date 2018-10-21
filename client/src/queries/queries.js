@@ -62,11 +62,19 @@ const editComment = gql`
   }
 `;
 
+const addPost = gql`
+  mutation($name: String!, $heading: String!, $text: String!) {
+    addPost(name: $name, heading: $heading, text: $text) {
+      id
+    }
+  }
+`;
 export {
   getPosts,
   getPost,
   getComment,
   addComment,
   removeComment,
-  editComment
+  editComment,
+  addPost
 };
