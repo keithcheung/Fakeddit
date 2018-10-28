@@ -3,7 +3,6 @@ import { css } from 'react-emotion';
 import { Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
-import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -13,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
-import { editPost, getPosts } from '../../queries/queries';
+import { editPost, getPost, removePost, getPosts } from '../../queries/queries';
 
 import styled from 'styled-components';
 
@@ -69,13 +68,21 @@ class PostFooter extends Component {
     const { text, heading, id } = this.state;
     this.props.editPost({
       variables: { id, heading, text },
-      refetchQueries: { query: getPosts }
+      refetchQueries: [{ query: getPost, variables: { id } }]
     });
     this.handleClose();
   };
 
+  deletePost = () => {
+    const { id } = this.state;
+    this.props.removePost({
+      variables: { id },
+      refetchQueries: [{ query: getPosts }]
+    });
+  };
   render() {
     const { text, heading } = this.state;
+    const { mainPage } = this.props;
     return (
       <div>
         <PostFooterContainer>
@@ -90,14 +97,16 @@ class PostFooter extends Component {
             />
             <FontAwesomeIcon icon={faThumbsDown} />
           </div>
-          <div>
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="Edit">
-              <EditIcon onClick={this.handleEditModal} />
-            </IconButton>
-          </div>
+          {!mainPage && (
+            <div>
+              <IconButton aria-label="Delete">
+                <DeleteIcon onClick={this.deletePost} />
+              </IconButton>
+              <IconButton aria-label="Edit">
+                <EditIcon onClick={this.handleEditModal} />
+              </IconButton>
+            </div>
+          )}
         </PostFooterContainer>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -148,4 +157,7 @@ class PostFooter extends Component {
   }
 }
 
-export default compose(graphql(editPost, { name: 'editPost' }))(PostFooter);
+export default compose(
+  graphql(editPost, { name: 'editPost' }),
+  graphql(removePost, { name: 'removePost' })
+)(PostFooter);

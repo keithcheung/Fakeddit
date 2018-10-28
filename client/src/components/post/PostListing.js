@@ -73,7 +73,12 @@ class PostListing extends Component {
               </Link>
             </Media>
           </Media>
-          <PostFooter id={post.id} heading={post.heading} text={post.text} />
+          <PostFooter
+            id={post.id}
+            heading={post.heading}
+            text={post.text}
+            mainPage={true}
+          />
         </ListGroupItem>
       );
     });

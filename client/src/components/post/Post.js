@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import { css } from 'react-emotion';
-import {
-  Container,
-  Media,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Button
-} from 'reactstrap';
+import { Container, Media, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { getPost } from '../../queries/queries';
 import { graphql, compose } from 'react-apollo';
 
 import Modal from '@material-ui/core/Modal';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import PostFooter from './PostFooter';
 
 import { RingLoader } from 'react-spinners';
 
@@ -74,33 +64,29 @@ class Post extends Component {
 
   displayPost() {
     const { heading, text } = this.props.data.post;
+    const { postId } = this.state;
     return (
-      <SpreadedContainer>
-        <div>
-          <Media>
-            <Media body>
-              <Media heading>{heading}</Media>
-              {text}
+      <div>
+        <SpreadedContainer>
+          <div>
+            <Media>
+              <Media body>
+                <Media heading>{heading}</Media>
+                {text}
+              </Media>
             </Media>
-          </Media>
-          <Row>
-            <Col sm={{ size: 'auto', offset: 0.5 }}>
-              <FontAwesomeIcon
-                icon={faThumbsUp}
-                style={{ marginRight: '1rem' }}
-                onClick={e => {
-                  e.stopPropagation();
-                  console.log(this.state.postId);
-                }}
-              />
-              <FontAwesomeIcon icon={faThumbsDown} />
-            </Col>
-          </Row>
-        </div>
-        <Button color="primary" onClick={this.renderResponseModal.bind(this)}>
-          Reply
-        </Button>
-      </SpreadedContainer>
+          </div>
+          <Button color="primary" onClick={this.renderResponseModal.bind(this)}>
+            Reply
+          </Button>
+        </SpreadedContainer>
+        <PostFooter
+          id={postId}
+          heading={heading}
+          text={text}
+          mainPage={false}
+        />
+      </div>
     );
   }
 
