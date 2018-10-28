@@ -12,7 +12,14 @@ import TextField from '@material-ui/core/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
-import { editPost, getPost, removePost, getPosts } from '../../queries/queries';
+import {
+  editPost,
+  getPost,
+  removePost,
+  getPosts,
+  upvotePost,
+  downvotePost
+} from '../../queries/queries';
 
 import styled from 'styled-components';
 
@@ -81,7 +88,7 @@ class PostFooter extends Component {
     });
   };
   render() {
-    const { text, heading } = this.state;
+    const { text, heading, id } = this.state;
     const { mainPage, upvotes } = this.props;
     return (
       <div>
@@ -91,14 +98,22 @@ class PostFooter extends Component {
               icon={faThumbsUp}
               style={{ marginRight: '0.5rem' }}
               onClick={e => {
-                e.stopPropagation();
-                console.log('clicked icon');
+                this.props.upvotePost({
+                  variables: { id },
+                  refetchQueries: [{ query: getPost, variables: { id } }]
+                });
               }}
             />
             {upvotes}
             <FontAwesomeIcon
               style={{ marginLeft: '0.5rem' }}
               icon={faThumbsDown}
+              onClick={e => {
+                this.props.downvotePost({
+                  variables: { id },
+                  refetchQueries: [{ query: getPost, variables: { id } }]
+                });
+              }}
             />
           </div>
           {!mainPage && (
@@ -163,5 +178,7 @@ class PostFooter extends Component {
 
 export default compose(
   graphql(editPost, { name: 'editPost' }),
-  graphql(removePost, { name: 'removePost' })
+  graphql(removePost, { name: 'removePost' }),
+  graphql(upvotePost, { name: 'upvotePost' }),
+  graphql(downvotePost, { name: 'downvotePost' })
 )(PostFooter);

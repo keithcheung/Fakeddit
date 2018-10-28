@@ -89,6 +89,24 @@ const editPost = gql`
   }
 `;
 
+const upvotePost = gql`
+  mutation($id: ID!) {
+    upvotePost(id: $id) {
+      id
+      upvotes
+    }
+  }
+`;
+
+const downvotePost = gql`
+  mutation($id: ID!) {
+    downvotePost(id: $id) {
+      id
+      upvotes
+    }
+  }
+`;
+
 export {
   getPosts,
   getPost,
@@ -98,5 +116,7 @@ export {
   editComment,
   addPost,
   editPost,
-  removePost
+  removePost,
+  upvotePost,
+  downvotePost
 };

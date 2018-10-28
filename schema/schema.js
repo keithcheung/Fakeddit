@@ -163,6 +163,32 @@ const Mutation = new GraphQLObjectType({
           { text: args.text, heading: args.heading }
         );
       }
+    },
+
+    upvotePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { upvotes: 1 } }
+        );
+      }
+    },
+
+    downvotePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { upvotes: -1 } }
+        );
+      }
     }
   }
 });
