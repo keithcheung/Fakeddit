@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
 import { css } from 'react-emotion';
-import {
-  ListGroup,
-  ListGroupItem,
-  Container,
-  Media,
-  Row,
-  Col,
-  Button
-} from 'reactstrap';
+import { ListGroup, ListGroupItem, Container, Media, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 import { graphql, compose } from 'react-apollo';
 import { getPosts, addPost } from '../../queries/queries';
 
+import PostFooter from './PostFooter';
 import { RingLoader } from 'react-spinners';
 import styled from 'styled-components';
 
@@ -67,13 +58,7 @@ class PostListing extends Component {
 
     return data.posts.map(post => {
       return (
-        <ListGroupItem
-          onClick={() => {
-            console.log('clicked');
-          }}
-          key={post.id}
-          value={post.id}
-        >
+        <ListGroupItem key={post.id} value={post.id}>
           <Media>
             <Media heading>
               {/* Pass ID through here, make call */}
@@ -88,19 +73,7 @@ class PostListing extends Component {
               </Link>
             </Media>
           </Media>
-          <Row>
-            <Col sm={{ size: 'auto', offset: 0.5 }}>
-              <FontAwesomeIcon
-                icon={faThumbsUp}
-                style={{ marginRight: '1rem' }}
-                onClick={e => {
-                  e.stopPropagation();
-                  console.log('clicked icon');
-                }}
-              />
-              <FontAwesomeIcon icon={faThumbsDown} />
-            </Col>
-          </Row>
+          <PostFooter id={post.id} heading={post.heading} text={post.text} />
         </ListGroupItem>
       );
     });
@@ -113,7 +86,6 @@ class PostListing extends Component {
 
   addPost = () => {
     const { heading, text } = this.state;
-    debugger;
     this.props.addPost({
       variables: { name: 'keith', heading, text },
       refetchQueries: [{ query: getPosts }]

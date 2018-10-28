@@ -5,6 +5,7 @@ const getPosts = gql`
     posts {
       id
       heading
+      text
       name
     }
   }
