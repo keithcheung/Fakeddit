@@ -69,6 +69,23 @@ const addPost = gql`
     }
   }
 `;
+
+const removePost = gql`
+  mutation($id: ID!) {
+    removePost(id: $id) {
+      id
+    }
+  }
+`;
+
+const editPost = gql`
+  mutation($id: ID!, $heading: String!, $text: String!) {
+    editPost(id: $id, heading: $heading, text: $text) {
+      id
+    }
+  }
+`;
+
 export {
   getPosts,
   getPost,
@@ -76,5 +93,7 @@ export {
   addComment,
   removeComment,
   editComment,
-  addPost
+  addPost,
+  editPost,
+  removePost
 };
