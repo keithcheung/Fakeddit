@@ -137,6 +137,31 @@ const Mutation = new GraphQLObjectType({
       resolve(parent, args) {
         return Comment.findOneAndUpdate({ _id: args.id }, { text: args.text });
       }
+    },
+
+    removePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Post.findOneAndRemove({ _id: args.id });
+      }
+    },
+
+    editPost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        heading: { type: new GraphQLNonNull(GraphQLString) },
+        text: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        return Post.findOneAndUpdate(
+          { _id: args.id },
+          { text: args.text, heading: args.heading }
+        );
+      }
     }
   }
 });
