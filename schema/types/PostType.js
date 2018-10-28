@@ -1,5 +1,11 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLInt
+} = graphql;
 
 const CommentType = require('./CommentType');
 
@@ -19,6 +25,7 @@ const PostType = new GraphQLObjectType({
     heading: { type: GraphQLString },
     date: { type: GraphQLString },
     text: { type: GraphQLString },
+    upvotes: { type: GraphQLInt },
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parent, args) {

@@ -82,20 +82,24 @@ class PostFooter extends Component {
   };
   render() {
     const { text, heading } = this.state;
-    const { mainPage } = this.props;
+    const { mainPage, upvotes } = this.props;
     return (
       <div>
         <PostFooterContainer>
           <div>
             <FontAwesomeIcon
               icon={faThumbsUp}
-              style={{ marginRight: '1rem' }}
+              style={{ marginRight: '0.5rem' }}
               onClick={e => {
                 e.stopPropagation();
                 console.log('clicked icon');
               }}
             />
-            <FontAwesomeIcon icon={faThumbsDown} />
+            {upvotes}
+            <FontAwesomeIcon
+              style={{ marginLeft: '0.5rem' }}
+              icon={faThumbsDown}
+            />
           </div>
           {!mainPage && (
             <div>

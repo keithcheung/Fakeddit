@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
   name: String,
   heading: String,
-  text: String
+  text: String,
+  upvotes: Number
 });
 
 module.exports = mongoose.model('Post', postSchema);

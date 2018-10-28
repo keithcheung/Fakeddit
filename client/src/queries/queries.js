@@ -6,6 +6,7 @@ const getPosts = gql`
       id
       heading
       text
+      upvotes
       name
     }
   }
@@ -17,6 +18,7 @@ const getPost = gql`
       heading
       name
       text
+      upvotes
       comments {
         id
       }

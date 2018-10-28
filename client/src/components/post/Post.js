@@ -63,7 +63,7 @@ class Post extends Component {
   }
 
   displayPost() {
-    const { heading, text } = this.props.data.post;
+    const { heading, text, upvotes } = this.props.data.post;
     const { postId } = this.state;
     return (
       <div>
@@ -84,6 +84,7 @@ class Post extends Component {
           id={postId}
           heading={heading}
           text={text}
+          upvotes={upvotes}
           mainPage={false}
         />
       </div>

@@ -77,6 +77,7 @@ class PostListing extends Component {
             id={post.id}
             heading={post.heading}
             text={post.text}
+            upvotes={post.upvotes}
             mainPage={true}
           />
         </ListGroupItem>

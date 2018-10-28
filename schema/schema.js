@@ -93,7 +93,8 @@ const Mutation = new GraphQLObjectType({
         const post = new Post({
           name,
           heading,
-          text
+          text,
+          upvotes: 0
         });
 
         return post.save();
