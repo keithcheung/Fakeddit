@@ -16,7 +16,34 @@ const Form = styled(Card)`
 `;
 
 class LogInContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    };
+  }
+
+  handleUsernameChange = ({ target: event }) => {
+    this.setState({ username: event.value });
+  };
+
+  handlePasswordChange = ({ target: event }) => {
+    this.setState({ password: event.value });
+  };
+
+  handleLogIn = () => {
+    const { username, password } = this.state;
+    // figure out what to do from here
+  };
+
+  handleSignUp = () => {
+    const { username, password } = this.state;
+    // figure out what to do with it from there
+  };
+
   render() {
+    const { signingUp } = this.props;
     return (
       <Form>
         <CardContent style={{ width: '100%' }}>
@@ -27,6 +54,7 @@ class LogInContainer extends Component {
             label="Username"
             placeholder="Please enter your username"
             margin="normal"
+            onChange={this.handleUsernameChange}
           />
         </CardContent>
         <CardContent style={{ width: '100%' }}>
@@ -38,15 +66,24 @@ class LogInContainer extends Component {
             label="Password"
             placeholder="Please enter your Password"
             margin="normal"
+            onChange={this.handlePasswordChange}
           />
         </CardContent>
         <CardActions>
-          <Button size="medium" color="primary">
-            Log in
-          </Button>
-          <Button size="medium" color="secondary">
-            Sign up
-          </Button>
+          {signingUp ? (
+            <Button size="medium" color="primary" onClick={this.handleSignUp}>
+              Sign up
+            </Button>
+          ) : (
+            <div>
+              <Button size="medium" color="primary" onClick={this.handleLogIn}>
+                Log in
+              </Button>
+              <Button size="medium" color="secondary" href="/signup">
+                Sign up
+              </Button>
+            </div>
+          )}
         </CardActions>
       </Form>
     );

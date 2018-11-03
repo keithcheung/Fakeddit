@@ -27,6 +27,11 @@ class App extends Component {
             <Route exact path="/" component={PostListing} />
             <Route path="/post/:postId" component={Post} />
             <Route exact path="/login" component={LogInContainer} />
+            <Route
+              exact
+              path="/signup"
+              render={() => <LogInContainer signingUp={true} />}
+            />
           </div>
         </Router>
       </ApolloProvider>
