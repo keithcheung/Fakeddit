@@ -19,7 +19,8 @@ export default class AppNavBar extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isLoggedIn: false
     };
   }
   toggle() {
@@ -28,6 +29,7 @@ export default class AppNavBar extends React.Component {
     });
   }
   render() {
+    const { isLoggedIn } = this.state;
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -41,17 +43,23 @@ export default class AppNavBar extends React.Component {
               <NavItem>
                 <NavLink href="https://github.com/keithcheung">GitHub</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Account
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>Profile</DropdownItem>
-                  <DropdownItem>Settings</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Logout</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              {isLoggedIn ? (
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    Account
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>Profile</DropdownItem>
+                    <DropdownItem>Settings</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>Logout</DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              ) : (
+                <NavItem>
+                  <NavLink href="/login">Log in</NavLink>
+                </NavItem>
+              )}
             </Nav>
           </Collapse>
         </Navbar>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import PostListing from './components/post/PostListing';
+import LogInContainer from './components/login/LogIn';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Post from './components/post/Post';
 import './index.css';
@@ -25,6 +26,7 @@ class App extends Component {
             <AppNavBar />
             <Route exact path="/" component={PostListing} />
             <Route path="/post/:postId" component={Post} />
+            <Route exact path="/login" component={LogInContainer} />
           </div>
         </Router>
       </ApolloProvider>
