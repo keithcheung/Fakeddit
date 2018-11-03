@@ -23,5 +23,5 @@ app.use(
 );
 
 app.listen(port, () => {
-  console.log(`Now listening to ${port}`);
+  console.log(`Now listening to ${port} 🚀`);
 });
