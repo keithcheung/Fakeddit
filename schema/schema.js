@@ -14,8 +14,10 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 
 const UserType = require('./types/UserType');
+const UserStatus = require('./types/UserStatus');
 const PostType = require('./types/PostType');
 const CommentType = require('./types/CommentType');
+const bcrypt = require('bcrypt');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -58,6 +60,31 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return Comment.findById(args.id);
       }
+    },
+
+    user: {
+      type: UserType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return User.findById(args.id);
+      }
+    },
+
+    signInUser: {
+      type: UserType,
+      args: {
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        User.findOne({ username: args.username }, (err, user) => {
+          if (bcrypt.compareSync(args.password, user.password)) {
+            return user;
+          } else {
+            return null;
+          }
+        });
+      }
     }
   }
 });
@@ -69,16 +96,19 @@ const Mutation = new GraphQLObjectType({
     addUser: {
       type: UserType,
       args: {
-        name: { type: new GraphQLNonNull(GraphQLString) }
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
         // From the model
-        let user = new User({
-          name: args.name
+        bcrypt.hash(args.password, 10, function(err, hash) {
+          const user = new User({ username: args.username, password: hash });
+          return user.save(_id => {
+            console.log(_id);
+          });
         });
         // Check if there are duplicates
         // mutation returns the data saved, this is where you'd save it to redux
-        return user.save();
       }
     },
     addPost: {

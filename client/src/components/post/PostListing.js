@@ -55,6 +55,7 @@ class PostListing extends Component {
   }
   displayPosts() {
     const { data } = this.props;
+    debugger;
 
     return data.posts.map(post => {
       return (
