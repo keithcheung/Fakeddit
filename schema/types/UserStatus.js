@@ -1,11 +1,5 @@
 const graphql = require('graphql');
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLID,
-  GraphQLBoolean,
-  GraphqlFunction
-} = graphql;
+const { GraphQLObjectType, GraphQLID } = graphql;
 
 // @ UserType
 // - name: username

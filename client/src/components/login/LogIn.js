@@ -35,11 +35,13 @@ class LogInContainer extends Component {
   handleLogIn = () => {
     const { username, password } = this.state;
     // figure out what to do from here
+    //  mutate here, get id, store it in localStorage
   };
 
   handleSignUp = () => {
     const { username, password } = this.state;
     // figure out what to do with it from there
+    //  mutate sign up
   };
 
   render() {

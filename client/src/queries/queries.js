@@ -107,6 +107,22 @@ const downvotePost = gql`
   }
 `;
 
+const signInUser = gql`
+  query($username: String!, $password: String!) {
+    signInUser(username: $username, password: $password) {
+      id
+    }
+  }
+`;
+
+const addUser = gql`
+  mutation($username: String!, $password: String!) {
+    addUser(username: $username, password: $password) {
+      id
+    }
+  }
+`;
+
 export {
   getPosts,
   getPost,
@@ -118,5 +134,7 @@ export {
   editPost,
   removePost,
   upvotePost,
-  downvotePost
+  downvotePost,
+  signInUser,
+  addUser
 };

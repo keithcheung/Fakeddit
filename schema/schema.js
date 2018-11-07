@@ -68,23 +68,6 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return User.findById(args.id);
       }
-    },
-
-    signInUser: {
-      type: UserStatus,
-      args: {
-        username: { type: new GraphQLNonNull(GraphQLString) },
-        password: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      async resolve(parent, args) {
-        const user = await User.findOne({ username: args.username });
-        if (!user) return null;
-        if (bcrypt.compareSync(args.password, user.password)) {
-          return user;
-        } else {
-          return null;
-        }
-      }
     }
   }
 });
@@ -103,14 +86,30 @@ const Mutation = new GraphQLObjectType({
         // From the model
         bcrypt.hash(args.password, 10, function(err, hash) {
           const user = new User({ username: args.username, password: hash });
-          return user.save(_id => {
-            console.log(_id);
-          });
+          return user.save();
         });
         // Check if there are duplicates
         // mutation returns the data saved, this is where you'd save it to redux
       }
     },
+
+    signInUser: {
+      type: UserStatus,
+      args: {
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      async resolve(parent, args) {
+        const user = await User.findOne({ username: args.username });
+        if (!user) return null;
+        if (bcrypt.compareSync(args.password, user.password)) {
+          return user;
+        } else {
+          return null;
+        }
+      }
+    },
+
     addPost: {
       type: PostType,
       args: {
