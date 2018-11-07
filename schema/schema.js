@@ -71,19 +71,19 @@ const RootQuery = new GraphQLObjectType({
     },
 
     signInUser: {
-      type: UserType,
+      type: UserStatus,
       args: {
         username: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) }
       },
-      resolve(parent, args) {
-        User.findOne({ username: args.username }, (err, user) => {
-          if (bcrypt.compareSync(args.password, user.password)) {
-            return user;
-          } else {
-            return null;
-          }
-        });
+      async resolve(parent, args) {
+        const user = await User.findOne({ username: args.username });
+        if (!user) return null;
+        if (bcrypt.compareSync(args.password, user.password)) {
+          return user;
+        } else {
+          return null;
+        }
       }
     }
   }
