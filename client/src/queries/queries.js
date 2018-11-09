@@ -108,7 +108,7 @@ const downvotePost = gql`
 `;
 
 const signInUser = gql`
-  query($username: String!, $password: String!) {
+  mutation($username: String!, $password: String!) {
     signInUser(username: $username, password: $password) {
       id
     }

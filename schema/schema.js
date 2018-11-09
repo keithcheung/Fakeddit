@@ -77,19 +77,17 @@ const Mutation = new GraphQLObjectType({
   fields: {
     // addAuthor to database
     addUser: {
-      type: UserType,
+      type: UserStatus,
       args: {
         username: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
-        // From the model
-        bcrypt.hash(args.password, 10, function(err, hash) {
-          const user = new User({ username: args.username, password: hash });
-          return user.save();
+        let user = new User({
+          username: args.username,
+          password: bcrypt.hashSync(args.password, 10)
         });
-        // Check if there are duplicates
-        // mutation returns the data saved, this is where you'd save it to redux
+        return user.save();
       }
     },
 
