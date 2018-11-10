@@ -52,6 +52,9 @@ class CommentTextInput extends Component {
           <Button color="info" size="sm" onClick={this.handleSubmit}>
             post
           </Button>
+          <Button color="secondary" size="sm" onClick={this.props.onCancel}>
+            cancel
+          </Button>
         </Col>
       </Row>
     );
@@ -59,7 +62,9 @@ class CommentTextInput extends Component {
 }
 
 CommentTextInput.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
+  onConfirm: PropTypes.func,
+  onCancel: PropTypes.func
 };
 
 export default graphql(addComment, { name: 'addComment' })(CommentTextInput);

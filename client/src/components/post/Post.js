@@ -48,7 +48,8 @@ class Post extends Component {
     super();
     this.state = {
       postId: match.params.postId,
-      open: false
+      open: false,
+      userId: sessionStorage.userId
     };
     this.handleClose = this.handleClose.bind(this);
     this.renderResponseModal = this.renderResponseModal.bind(this);
@@ -64,7 +65,7 @@ class Post extends Component {
 
   displayPost() {
     const { heading, text, upvotes } = this.props.data.post;
-    const { postId } = this.state;
+    const { postId, userId } = this.state;
     return (
       <div>
         <SpreadedContainer>
@@ -76,7 +77,11 @@ class Post extends Component {
               </Media>
             </Media>
           </div>
-          <Button color="primary" onClick={this.renderResponseModal.bind(this)}>
+          <Button
+            disabled={userId == null}
+            color="primary"
+            onClick={this.renderResponseModal.bind(this)}
+          >
             Reply
           </Button>
         </SpreadedContainer>

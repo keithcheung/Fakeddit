@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, Row, Col, Button } from 'reactstrap';
+import { ListGroup, Row, Col } from 'reactstrap';
 import {
   getComment,
   addComment,
@@ -11,6 +11,12 @@ import TextField from '@material-ui/core/TextField';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';
 import CommentTextInput from './CommentTextInput';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+
+const CommentText = styled.p`
+  padding-bottom: 8px;
+`;
 
 class Comment extends Component {
   constructor(props) {
@@ -94,6 +100,10 @@ class Comment extends Component {
     this.togglePost();
   };
 
+  handleCancel = () => {
+    this.togglePost();
+  };
+
   toggleEdit = () => {
     const { editingComment } = this.state;
     this.setState({ editingComment: !editingComment });
@@ -130,6 +140,7 @@ class Comment extends Component {
           <CommentTextInput
             id={id}
             onConfirm={this.handleConfirm}
+            onCancel={this.handleCancel}
             postId={this.props.postId}
           />
         </div>
@@ -137,16 +148,23 @@ class Comment extends Component {
     } else {
       return (
         <div>
-          {text}
-          <p onClick={this.togglePost}>reply</p>
-          <p onClick={this.toggleEdit}>edit</p>
-          <p
-            onClick={() => {
-              this.handleDeleteComment(id);
-            }}
-          >
-            delete
-          </p>
+          <CommentText>{text}</CommentText>
+          <div>
+            <Button size="small" onClick={this.togglePost}>
+              reply
+            </Button>
+            <Button size="small" onClick={this.toggleEdit}>
+              edit
+            </Button>
+            <Button
+              size="small"
+              onClick={() => {
+                this.handleDeleteComment(id);
+              }}
+            >
+              delete
+            </Button>
+          </div>
         </div>
       );
     }

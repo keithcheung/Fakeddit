@@ -50,12 +50,16 @@ const ModalBtnContainer = styled.div`
 class PostListing extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false, heading: '', text: '' };
+    this.state = {
+      open: false,
+      heading: '',
+      text: '',
+      userId: sessionStorage.userId
+    };
     this.displayPosts = this.displayPosts.bind(this);
   }
   displayPosts() {
     const { data } = this.props;
-    debugger;
 
     return data.posts.map(post => {
       return (
@@ -102,6 +106,8 @@ class PostListing extends Component {
 
   render() {
     const { loading } = this.props.data;
+    const { userId } = this.state;
+
     if (loading) {
       return (
         <RingLoader
@@ -116,7 +122,11 @@ class PostListing extends Component {
       return (
         <Container>
           <PostBtnContainer>
-            <Button color="primary" onClick={this.togglePostModal}>
+            <Button
+              disabled={userId == null}
+              color="primary"
+              onClick={this.togglePostModal}
+            >
               Post
             </Button>
           </PostBtnContainer>

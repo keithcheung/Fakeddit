@@ -65,7 +65,6 @@ class LogInContainer extends Component {
     this.props
       .addUser({ variables: { username, password } })
       .then(response => {
-        debugger;
         if (response.data.addUser) {
           this.setState({ failSignUp: false });
           this.props.history.push('/login');
