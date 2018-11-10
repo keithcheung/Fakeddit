@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -13,14 +14,14 @@ import {
   DropdownItem
 } from 'reactstrap';
 
-export default class AppNavBar extends React.Component {
+class AppNavBar extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      isLoggedIn: false
+      userId: sessionStorage.userId
     };
   }
   toggle() {
@@ -28,8 +29,13 @@ export default class AppNavBar extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+  handleLogOut = () => {
+    sessionStorage.clear();
+    this.props.history.push('/');
+    window.location.reload();
+  };
   render() {
-    const { isLoggedIn } = this.state;
+    const userId = sessionStorage.userId;
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -43,7 +49,7 @@ export default class AppNavBar extends React.Component {
               <NavItem>
                 <NavLink href="https://github.com/keithcheung">GitHub</NavLink>
               </NavItem>
-              {isLoggedIn ? (
+              {userId ? (
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     Account
@@ -52,7 +58,9 @@ export default class AppNavBar extends React.Component {
                     <DropdownItem>Profile</DropdownItem>
                     <DropdownItem>Settings</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem>Logout</DropdownItem>
+                    <DropdownItem onClick={this.handleLogOut}>
+                      Logout
+                    </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               ) : (
@@ -67,3 +75,5 @@ export default class AppNavBar extends React.Component {
     );
   }
 }
+
+export default withRouter(AppNavBar);
