@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { css } from 'react-emotion';
+import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
@@ -86,6 +87,7 @@ class PostFooter extends Component {
       variables: { id },
       refetchQueries: [{ query: getPosts }]
     });
+    this.props.history.push('/');
   };
   render() {
     const { text, heading, id } = this.state;
@@ -181,4 +183,4 @@ export default compose(
   graphql(removePost, { name: 'removePost' }),
   graphql(upvotePost, { name: 'upvotePost' }),
   graphql(downvotePost, { name: 'downvotePost' })
-)(PostFooter);
+)(withRouter(PostFooter));
