@@ -7,7 +7,6 @@ const getPosts = gql`
       heading
       text
       upvotes
-      name
     }
   }
 `;
