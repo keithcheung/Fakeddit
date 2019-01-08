@@ -91,7 +91,7 @@ class PostFooter extends Component {
   };
   render() {
     const { text, heading, id } = this.state;
-    const { mainPage, upvotes } = this.props;
+    const { mainPage, upvotes, owner } = this.props;
     return (
       <div>
         <PostFooterContainer>
@@ -118,7 +118,7 @@ class PostFooter extends Component {
               }}
             />
           </div>
-          {!mainPage && (
+          {!mainPage && owner && (
             <div>
               <IconButton aria-label="Delete">
                 <DeleteIcon onClick={this.deletePost} />

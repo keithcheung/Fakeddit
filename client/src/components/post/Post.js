@@ -64,8 +64,9 @@ class Post extends Component {
   }
 
   displayPost() {
-    const { heading, text, upvotes } = this.props.data.post;
+    const { heading, text, upvotes, uid } = this.props.data.post;
     const { postId, userId } = this.state;
+    const owner = userId === uid;
     return (
       <div>
         <SpreadedContainer>
@@ -87,6 +88,7 @@ class Post extends Component {
         </SpreadedContainer>
         <PostFooter
           id={postId}
+          owner={owner}
           heading={heading}
           text={text}
           upvotes={upvotes}

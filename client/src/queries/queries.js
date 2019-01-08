@@ -18,6 +18,7 @@ const getPost = gql`
       name
       text
       upvotes
+      uid
       comments {
         id
       }
