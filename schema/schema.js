@@ -113,14 +113,16 @@ const Mutation = new GraphQLObjectType({
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
         heading: { type: new GraphQLNonNull(GraphQLString) },
-        text: { type: new GraphQLNonNull(GraphQLString) }
+        text: { type: new GraphQLNonNull(GraphQLString) },
+        uid: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parent, args) {
-        const { name, heading, text } = args;
+        const { name, heading, text, uid } = args;
         const post = new Post({
           name,
           heading,
           text,
+          uid,
           upvotes: 0
         });
 

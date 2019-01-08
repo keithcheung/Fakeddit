@@ -96,9 +96,11 @@ class PostListing extends Component {
   };
 
   addPost = () => {
-    const { heading, text } = this.state;
+    // userId should be available if they got to call addPost
+    const { heading, text, userId } = this.state;
+    debugger
     this.props.addPost({
-      variables: { name: 'keith', heading, text },
+      variables: { name: 'keith', heading, text, uid: userId },
       refetchQueries: [{ query: getPosts }]
     });
     this.togglePostModal();

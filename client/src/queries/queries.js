@@ -66,8 +66,8 @@ const editComment = gql`
 `;
 
 const addPost = gql`
-  mutation($name: String!, $heading: String!, $text: String!) {
-    addPost(name: $name, heading: $heading, text: $text) {
+  mutation($name: String!, $heading: String!, $text: String!, $uid: ID!) {
+    addPost(name: $name, heading: $heading, text: $text, uid: $uid) {
       id
     }
   }

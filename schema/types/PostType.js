@@ -26,6 +26,7 @@ const PostType = new GraphQLObjectType({
     date: { type: GraphQLString },
     text: { type: GraphQLString },
     upvotes: { type: GraphQLInt },
+    uid: { type: GraphQLID },
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parent, args) {
