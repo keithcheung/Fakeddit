@@ -20,6 +20,6 @@ create a test login, and enjoy!
 
 
 ### Implementation ideas:
--[] subcommunities
--[] about page
--[] proper deleting of threads
+- [ ] subcommunities
+- [ ] about page
+- [ ] proper deleting of threads
