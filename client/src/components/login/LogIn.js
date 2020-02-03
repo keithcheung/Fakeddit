@@ -22,7 +22,10 @@ const Form = styled(Card)`
   padding: 0 10rem;
   margin: 5rem 10rem;
 `;
-
+/**
+ * @class LogInContainer
+ * Handles all functionality in /login route and handles user authorization
+ */
 class LogInContainer extends Component {
   constructor(props) {
     super(props);
@@ -34,14 +37,24 @@ class LogInContainer extends Component {
     };
   }
 
+  /**
+   * Handles typing in the username field and updates state
+   */
   handleUsernameChange = ({ target: event }) => {
     this.setState({ username: event.value });
   };
 
+  /**
+   * Handles typing in the password field and updates state
+   */
   handlePasswordChange = ({ target: event }) => {
     this.setState({ password: event.value });
   };
 
+  /**
+   * Will handle the log in of a user and sets userId in sessionStorage 
+   *  for future references
+   */
   handleLogIn = () => {
     const { username, password } = this.state;
     this.props
@@ -60,6 +73,9 @@ class LogInContainer extends Component {
       });
   };
 
+  /**
+   * Adds user to the database and then pushes to a new route
+   */
   handleSignUp = () => {
     const { username, password } = this.state;
     this.props
@@ -123,15 +139,15 @@ class LogInContainer extends Component {
               Sign up
             </Button>
           ) : (
-            <div>
-              <Button size="medium" color="primary" onClick={this.handleLogIn}>
-                Log in
+              <div>
+                <Button size="medium" color="primary" onClick={this.handleLogIn}>
+                  Log in
               </Button>
-              <Button size="medium" color="secondary" href="/signup">
-                Sign up
+                <Button size="medium" color="secondary" href="/signup">
+                  Sign up
               </Button>
-            </div>
-          )}
+              </div>
+            )}
         </CardActions>
       </Form>
     );

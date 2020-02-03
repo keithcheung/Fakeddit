@@ -6,7 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import { addComment } from '../../queries/queries';
 import { graphql } from 'react-apollo';
 
-// CommentTextInput
+/**
+ * @class CommentTextInput
+ * Upon clicking reply this component is shown to handle posting another comment 
+ */
 class CommentTextInput extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +19,7 @@ class CommentTextInput extends Component {
     });
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleSubmit() {
     const { response } = this.state;
     const { id } = this.props;
@@ -49,10 +53,10 @@ class CommentTextInput extends Component {
           />
         </Col>
         <Col xs="2">
-          <Button color="info" size="sm" onClick={this.handleSubmit}>
+          <Button className='response_btns' color="info" size="sm" onClick={this.handleSubmit}>
             post
           </Button>
-          <Button color="secondary" size="sm" onClick={this.props.onCancel}>
+          <Button className='response_btns' color="secondary" size="sm" onClick={this.props.onCancel}>
             cancel
           </Button>
         </Col>

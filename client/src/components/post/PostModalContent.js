@@ -22,6 +22,10 @@ const PostModalContainer = styled.div`
   padding: 1.5rem;
   height: 100%;
 `;
+
+/**
+ * Modal that pops out to include information on the new post
+ */
 class PostModalContent extends Component {
   constructor(props) {
     super(props);

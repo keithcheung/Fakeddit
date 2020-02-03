@@ -5,6 +5,11 @@ body {
   background-color: #eee;
 }
 
-.post-listing {
-  margin-top: 1rem;
+.container {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.response_btns {
+  margin: 10px 10px;
 }

@@ -14,6 +14,8 @@ import CommentContainer from '../comment/CommentContainer';
 import PostModalContent from './PostModalContent';
 
 import styled from 'styled-components';
+// I can get comments here so that I dont have to do it each time on every comments
+// False, making it the way I'm doing right now has a better runtime 
 
 const override = css`
   display: block;
@@ -43,6 +45,11 @@ const CenterContainer = styled.div`
   width: 100%;
 `;
 
+/**
+ * @class Post
+ * Handles SINGLE post functionality, for list see PostListing
+ * url: post/{post-id}
+ */
 class Post extends Component {
   constructor({ match }) {
     super();
@@ -63,6 +70,9 @@ class Post extends Component {
     this.setState({ open: true });
   }
 
+  /**
+   * handles displaying the Post and some of it's footer
+   */
   displayPost() {
     const { heading, text, upvotes, uid } = this.props.data.post;
     const { postId, userId } = this.state;

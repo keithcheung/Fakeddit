@@ -72,6 +72,9 @@ class PostFooter extends Component {
     this.setState({ open: true });
   };
 
+  /**
+   * Attempts to invoke editing the post
+   */
   editPost = () => {
     const { text, heading, id } = this.state;
     this.props.editPost({
@@ -81,6 +84,10 @@ class PostFooter extends Component {
     this.handleClose();
   };
 
+  /**
+   * Removes the post 
+   * TODO: remove comments that are integrated on the post
+   */
   deletePost = () => {
     const { id } = this.state;
     this.props.removePost({
@@ -89,6 +96,7 @@ class PostFooter extends Component {
     });
     this.props.history.push('/');
   };
+
   render() {
     const { text, heading, id } = this.state;
     const { mainPage, upvotes, owner } = this.props;

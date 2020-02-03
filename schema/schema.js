@@ -87,6 +87,7 @@ const Mutation = new GraphQLObjectType({
           username: args.username,
           password: bcrypt.hashSync(args.password, 10)
         });
+        debugger;
         return user.save();
       }
     },

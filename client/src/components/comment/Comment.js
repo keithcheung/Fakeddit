@@ -18,6 +18,10 @@ const CommentText = styled.p`
   padding-bottom: 8px;
 `;
 
+/**
+ * @class Comment
+ * Comment component which handles majority of comment functionality.
+ */
 class Comment extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +37,7 @@ class Comment extends Component {
 
     const { loading } = props.data;
     this.state = { toogle: false, editingComment: false };
+    // Ensure component has loaded data before proceeding
     if (!loading) {
       this.state = {
         text: props.data.comment.text,
@@ -43,7 +48,7 @@ class Comment extends Component {
       };
     }
   }
-  // have to update text like this otherwise it was undefined
+
   componentWillReceiveProps(newProps) {
     const { loading } = newProps.data;
     if (!loading) {
@@ -57,9 +62,14 @@ class Comment extends Component {
     }
   }
 
+  /**
+   * Takes the ID of a comment and will invoke the removeComment mutation
+   * @param {ID} id - id of the comment
+   */
   handleDeleteComment = id => {
     const { postId } = this.props;
-    const { uid } = this.state;
+    const { uid, comments } = this.state;
+    // Would have to nest through comments here
     this.props.removeComment({
       variables: { id: id },
       refetchQueries: [
@@ -69,6 +79,9 @@ class Comment extends Component {
     });
   };
 
+  /**
+   * Parses comments and displays comments accordingly
+   */
   displayComments() {
     const { comments } = this.state;
     if (!comments) {
@@ -86,11 +99,21 @@ class Comment extends Component {
     }
   }
 
+  /**
+   * Determines whether or not to open the response modal
+   */
   togglePost = () => {
     const { toggle } = this.state;
     this.setState({ toggle: !toggle });
   };
 
+  /**
+   * Will invoke addComment given a new comment
+   * @param {Object} newComment - the comment
+   * @param {string} newComment.name - username of the commenter
+   * @param {string} newComment.response - the text of the comment
+   * @param {ID} newComment.id - ID of the comment
+   */
   handleConfirm = newComment => {
     const { name, response, id } = newComment;
     this.props.addComment({
@@ -100,27 +123,36 @@ class Comment extends Component {
     this.togglePost();
   };
 
-  handleCancel = () => {
-    this.togglePost();
-  };
-
+  /**
+   * Changes to edit mode
+   */
   toggleEdit = () => {
     const { editingComment } = this.state;
     this.setState({ editingComment: !editingComment });
   };
 
+  /**
+   * Function called when user is typing in the textbox
+   * @param {Object} event - The event on the textbox
+   */
   handleCommentChange = event => {
     this.setState({
       newComment: event.target.value
     });
   };
 
+  /** 
+   * Clears all the fields on cancel of response button 
+   */
   clearEdit = () => {
     const { text } = this.state;
     this.setState({ newComment: text });
     this.toggleEdit();
   };
 
+  /**
+   * Attempts to invoke function that edits comment 
+   */
   handleEdit = () => {
     const { id, newComment } = this.state;
     this.props.editComment({
@@ -130,6 +162,9 @@ class Comment extends Component {
     this.toggleEdit();
   };
 
+  /**
+   * Renders Reply, Edit and Delete buttons if current user is logged in.
+   */
   maybeRenderTextInput() {
     const { toggle, text } = this.state;
     const { id } = this.props.comment;
@@ -140,7 +175,7 @@ class Comment extends Component {
           <CommentTextInput
             id={id}
             onConfirm={this.handleConfirm}
-            onCancel={this.handleCancel}
+            onCancel={this.togglePost}
             postId={this.props.postId}
           />
         </div>
@@ -191,7 +226,7 @@ class Comment extends Component {
           </Col>
           <Col xs="2">
             <Row>
-              <Button color="info" size="sm" onClick={this.handleEdit}>
+              <Button color="secondary" size="sm" onClick={this.handleEdit}>
                 edit
               </Button>
             </Row>

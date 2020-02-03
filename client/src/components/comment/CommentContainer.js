@@ -10,6 +10,11 @@ const commentSection = css`
     border-left: 1px solid #eeeeee;
   }
 `;
+/**
+ * A container which will wrap comments in a ListGroupItem and maps through children comments.
+ * 
+ * @class CommentContainer 
+ */
 class CommentContainer extends Component {
   render() {
     const { comments, postId } = this.props;

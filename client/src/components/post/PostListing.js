@@ -58,6 +58,10 @@ class PostListing extends Component {
     };
     this.displayPosts = this.displayPosts.bind(this);
   }
+
+  /**
+   * Handles the displaying posts in the main feed
+   */
   displayPosts() {
     const { data } = this.props;
 
@@ -95,6 +99,9 @@ class PostListing extends Component {
     this.setState({ open: !open });
   };
 
+  /**
+   * Adds a post from the main feed
+   */
   addPost = () => {
     // userId should be available if they got to call addPost
     const { heading, text, userId } = this.state;
