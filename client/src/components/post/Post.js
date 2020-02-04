@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { css } from 'react-emotion';
 import { Container, Media, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { getPost } from '../../queries/queries';
+import { getPost } from '../../queries/posts/post-queries';
 import { graphql, compose } from 'react-apollo';
 
 import Modal from '@material-ui/core/Modal';

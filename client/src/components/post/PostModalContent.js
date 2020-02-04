@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 
 import { graphql } from 'react-apollo';
-import { addComment, getPost } from '../../queries/queries';
+import { addComment } from '../../queries/comments/comment-queries';
+import { getPost } from '../../queries/posts/post-queries';
+
 import TextField from '@material-ui/core/TextField';
 
 import styled from 'styled-components';

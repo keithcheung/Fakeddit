@@ -6,7 +6,8 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 
 import { graphql, compose } from 'react-apollo';
-import { getPosts, addPost, findUserName } from '../../queries/queries';
+import { getPosts, addPost } from '../../queries/posts/post-queries';
+import { findUserName } from '../../queries/user/user-queries';
 
 import PostFooter from './PostFooter';
 import { RingLoader } from 'react-spinners';

@@ -3,7 +3,8 @@ import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
-import { addComment, findUserName } from '../../queries/queries';
+import { addComment } from '../../queries/comments/comment-queries'
+import { findUserName } from '../../queries/user/user-queries';
 import { graphql, compose } from 'react-apollo';
 
 /**

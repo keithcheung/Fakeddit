@@ -12,7 +12,7 @@ import styled from 'styled-components';
 
 import { graphql, compose } from 'react-apollo';
 
-import { addUser, signInUser } from '../../queries/queries';
+import { addUser, signInUser } from '../../queries/user/user-queries';
 
 const Form = styled(Card)`
   display: flex;

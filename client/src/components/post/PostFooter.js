@@ -20,7 +20,8 @@ import {
   getPosts,
   upvotePost,
   downvotePost
-} from '../../queries/queries';
+} from '../../queries/posts/post-queries';
+
 
 import styled from 'styled-components';
 

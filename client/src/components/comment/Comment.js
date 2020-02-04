@@ -4,9 +4,10 @@ import {
   getComment,
   addComment,
   removeComment,
-  getPost,
   editComment
-} from '../../queries/queries';
+} from '../../queries/comments/comment-queries';
+import { getPost } from '../../queries/posts/post-queries'
+
 import TextField from '@material-ui/core/TextField';
 import { graphql, compose } from 'react-apollo';
 import CommentContainer from './CommentContainer';

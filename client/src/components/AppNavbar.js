@@ -64,10 +64,10 @@ class AppNavBar extends React.Component {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               ) : (
-                <NavItem>
-                  <NavLink href="/login">Log in</NavLink>
-                </NavItem>
-              )}
+                  <NavItem>
+                    <NavLink href="/login">Log in</NavLink>
+                  </NavItem>
+                )}
             </Nav>
           </Collapse>
         </Navbar>
