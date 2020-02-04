@@ -6,7 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 
 import { graphql, compose } from 'react-apollo';
-import { getPosts, addPost } from '../../queries/queries';
+import { getPosts, addPost, findUserName } from '../../queries/queries';
 
 import PostFooter from './PostFooter';
 import { RingLoader } from 'react-spinners';
@@ -57,6 +57,7 @@ class PostListing extends Component {
       userId: sessionStorage.userId
     };
     this.displayPosts = this.displayPosts.bind(this);
+    this.addPost = this.addPost.bind(this);
   }
 
   /**
@@ -105,9 +106,13 @@ class PostListing extends Component {
   addPost = () => {
     // userId should be available if they got to call addPost
     const { heading, text, userId } = this.state;
+
     try {
+      debugger;
+      const { username } = this.props.username.user;
+      debugger;
       this.props.addPost({
-        variables: { name: 'keith', heading, text, uid: userId },
+        variables: { name: username, heading, text, uid: userId },
         refetchQueries: [{ query: getPosts }]
       });
       this.togglePostModal();
@@ -195,5 +200,15 @@ class PostListing extends Component {
 
 export default compose(
   graphql(getPosts, { name: 'data' }),
-  graphql(addPost, { name: 'addPost' })
+  graphql(addPost, { name: 'addPost' }),
+  graphql(findUserName, {
+    name: 'username',
+    options: props => {
+      return {
+        variables: {
+          id: sessionStorage.userId,
+        }
+      };
+    }
+  })
 )(PostListing);

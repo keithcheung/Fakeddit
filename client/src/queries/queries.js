@@ -123,6 +123,14 @@ const addUser = gql`
   }
 `;
 
+const findUserName = gql`
+  query($id: ID) {
+    user(id: $id) {
+      username
+    }
+  }
+`;
+
 export {
   getPosts,
   getPost,
@@ -136,5 +144,6 @@ export {
   upvotePost,
   downvotePost,
   signInUser,
-  addUser
+  addUser,
+  findUserName
 };
