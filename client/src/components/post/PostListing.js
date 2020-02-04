@@ -105,11 +105,15 @@ class PostListing extends Component {
   addPost = () => {
     // userId should be available if they got to call addPost
     const { heading, text, userId } = this.state;
-    this.props.addPost({
-      variables: { name: 'keith', heading, text, uid: userId },
-      refetchQueries: [{ query: getPosts }]
-    });
-    this.togglePostModal();
+    try {
+      this.props.addPost({
+        variables: { name: 'keith', heading, text, uid: userId },
+        refetchQueries: [{ query: getPosts }]
+      });
+      this.togglePostModal();
+    } catch (err) {
+      console.error(`Failed loading posts with error: ${err}`)
+    }
   };
 
   render() {

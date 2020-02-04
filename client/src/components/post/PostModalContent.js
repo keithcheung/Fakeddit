@@ -37,12 +37,15 @@ class PostModalContent extends Component {
   handleSubmitComment() {
     const { comment, name } = this.state;
     const { postId } = this.props;
-
-    this.props.addComment({
-      variables: { name: name, uid: postId, text: comment },
-      refetchQueries: [{ query: getPost, variables: { id: postId } }]
-    });
-    this.props.handleClose();
+    try {
+      this.props.addComment({
+        variables: { name: name, uid: postId, text: comment },
+        refetchQueries: [{ query: getPost, variables: { id: postId } }]
+      });
+      this.props.handleClose();
+    } catch (err) {
+      console.error(`Failed to add comment with ${err}`);
+    }
   }
 
   onCommentChange(event) {

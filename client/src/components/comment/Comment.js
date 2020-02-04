@@ -70,13 +70,17 @@ class Comment extends Component {
     const { postId } = this.props;
     const { uid, comments } = this.state;
     // Would have to nest through comments here
-    this.props.removeComment({
-      variables: { id: id },
-      refetchQueries: [
-        { query: getComment, variables: { id: uid } },
-        { query: getPost, variables: { id: postId } }
-      ]
-    });
+    try {
+      this.props.removeComment({
+        variables: { id: id },
+        refetchQueries: [
+          { query: getComment, variables: { id: uid } },
+          { query: getPost, variables: { id: postId } }
+        ]
+      });
+    } catch (err) {
+      console.error(`Failed to remove comment with error ${err}`);
+    }
   };
 
   /**
@@ -116,11 +120,15 @@ class Comment extends Component {
    */
   handleConfirm = newComment => {
     const { name, response, id } = newComment;
-    this.props.addComment({
-      variables: { name: name, uid: id, text: response },
-      refetchQueries: [{ query: getComment, variables: { id } }]
-    });
-    this.togglePost();
+    try {
+      this.props.addComment({
+        variables: { name: name, uid: id, text: response },
+        refetchQueries: [{ query: getComment, variables: { id } }]
+      });
+      this.togglePost();
+    } catch (err) {
+      console.error(`Failed to add comment with an error of ${err}`)
+    }
   };
 
   /**
@@ -155,11 +163,15 @@ class Comment extends Component {
    */
   handleEdit = () => {
     const { id, newComment } = this.state;
-    this.props.editComment({
-      variables: { id, text: newComment },
-      refetchQueries: [{ query: getComment, variables: { id } }]
-    });
-    this.toggleEdit();
+    try {
+      this.props.editComment({
+        variables: { id, text: newComment },
+        refetchQueries: [{ query: getComment, variables: { id } }]
+      });
+      this.toggleEdit();
+    } catch (err) {
+      console.error(`Failed to edit commit with error message: ${err}`)
+    }
   };
 
   /**

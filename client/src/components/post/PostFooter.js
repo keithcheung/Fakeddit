@@ -77,11 +77,15 @@ class PostFooter extends Component {
    */
   editPost = () => {
     const { text, heading, id } = this.state;
-    this.props.editPost({
-      variables: { id, heading, text },
-      refetchQueries: [{ query: getPost, variables: { id } }]
-    });
-    this.handleClose();
+    try {
+      this.props.editPost({
+        variables: { id, heading, text },
+        refetchQueries: [{ query: getPost, variables: { id } }]
+      });
+      this.handleClose();
+    } catch (err) {
+      console.error(`Failed refetching post after edit with error message ${err}`);
+    }
   };
 
   /**
@@ -90,11 +94,15 @@ class PostFooter extends Component {
    */
   deletePost = () => {
     const { id } = this.state;
-    this.props.removePost({
-      variables: { id },
-      refetchQueries: [{ query: getPosts }]
-    });
-    this.props.history.push('/');
+    try {
+      this.props.removePost({
+        variables: { id },
+        refetchQueries: [{ query: getPosts }]
+      });
+      this.props.history.push('/');
+    } catch (err) {
+      console.error(`Failed to remove post with error message: ${err}`)
+    }
   };
 
   render() {
@@ -108,10 +116,14 @@ class PostFooter extends Component {
               icon={faThumbsUp}
               style={{ marginRight: '0.5rem' }}
               onClick={e => {
-                this.props.upvotePost({
-                  variables: { id },
-                  refetchQueries: [{ query: getPost, variables: { id } }]
-                });
+                try {
+                  this.props.upvotePost({
+                    variables: { id },
+                    refetchQueries: [{ query: getPost, variables: { id } }]
+                  });
+                } catch (err) {
+                  console.error(`Failed refetching query with ${err}`);
+                }
               }}
             />
             {upvotes}
@@ -119,10 +131,14 @@ class PostFooter extends Component {
               style={{ marginLeft: '0.5rem' }}
               icon={faThumbsDown}
               onClick={e => {
-                this.props.downvotePost({
-                  variables: { id },
-                  refetchQueries: [{ query: getPost, variables: { id } }]
-                });
+                try {
+                  this.props.downvotePost({
+                    variables: { id },
+                    refetchQueries: [{ query: getPost, variables: { id } }]
+                  });
+                } catch (err) {
+                  console.error(`Failed refetching query with ${err}`);
+                }
               }}
             />
           </div>
