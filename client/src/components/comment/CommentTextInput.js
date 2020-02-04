@@ -3,8 +3,8 @@ import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
-import { addComment } from '../../queries/queries';
-import { graphql } from 'react-apollo';
+import { addComment, findUserName } from '../../queries/queries';
+import { graphql, compose } from 'react-apollo';
 
 /**
  * @class CommentTextInput
@@ -23,11 +23,11 @@ class CommentTextInput extends Component {
   handleSubmit() {
     const { response } = this.state;
     const { id } = this.props;
-    const name = 'kcheung41';
+    const { username } = this.props.username.user;
     const newComment = {
       response,
       id,
-      name
+      name: username,
     };
 
     this.props.onConfirm(newComment);
@@ -71,4 +71,16 @@ CommentTextInput.propTypes = {
   onCancel: PropTypes.func
 };
 
-export default graphql(addComment, { name: 'addComment' })(CommentTextInput);
+export default compose(
+  graphql(addComment, { name: 'addComment' }),
+  graphql(findUserName, {
+    name: 'username',
+    options: props => {
+      return {
+        variables: {
+          id: sessionStorage.userId,
+        }
+      };
+    }
+  })
+)(CommentTextInput);
