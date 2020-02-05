@@ -95,15 +95,12 @@ class PostFooter extends Component {
  * @param {ID} id - id of the comment
  */
   handleDeleteComment = id => {
-    const { postId } = this.props;
-    const { uid } = this.state;
-
     try {
       this.props.removeComment({
         variables: { id: id }
       }).then(function deleteChildren(res) {
         const { comments } = res.data.removeComment;
-        comments.map(comment => {
+        comments.forEach(comment => {
           this.handleDeleteComment(comment.id);
         })
       }.bind(this));
@@ -125,7 +122,7 @@ class PostFooter extends Component {
         variables: { id },
         refetchQueries: [{ query: getPosts }]
       });
-      comments.map(comment => this.handleDeleteComment(comment.id));
+      comments.forEach(comment => { this.handleDeleteComment(comment.id) });
       this.props.history.push('/');
 
     } catch (err) {

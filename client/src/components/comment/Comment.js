@@ -80,7 +80,7 @@ class Comment extends Component {
         ]
       }).then(function deleteChildren(res) {
         const { comments } = res.data.removeComment;
-        comments.map(comment => {
+        comments.forEach(comment => {
           this.handleDeleteComment(comment.id);
         })
       }.bind(this));
