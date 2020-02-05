@@ -69,8 +69,8 @@ class Comment extends Component {
    */
   handleDeleteComment = id => {
     const { postId } = this.props;
-    const { uid, comments } = this.state;
-    // Would have to nest through comments here
+    const { uid } = this.state;
+
     try {
       this.props.removeComment({
         variables: { id: id },
@@ -78,7 +78,12 @@ class Comment extends Component {
           { query: getComment, variables: { id: uid } },
           { query: getPost, variables: { id: postId } }
         ]
-      });
+      }).then(function deleteChildren(res) {
+        const { comments } = res.data.removeComment;
+        comments.map(comment => {
+          this.handleDeleteComment(comment.id);
+        })
+      }.bind(this));
     } catch (err) {
       console.error(`Failed to remove comment with error ${err}`);
     }

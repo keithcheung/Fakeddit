@@ -13,6 +13,14 @@ const getComment = gql`
   }
 `;
 
+const getCommentFromUid = gql`
+  query($uid: ID) {
+    commentByUid(uid: $uid) {
+      id
+    }
+  }
+`
+
 const addComment = gql`
   mutation($name: String!, $uid: ID!, $text: String!) {
     addComment(name: $name, uid: $uid, text: $text) {
@@ -27,6 +35,9 @@ const removeComment = gql`
     removeComment(id: $id) {
       uid
       id
+      comments {
+        id
+      }
     }
   }
 `;
@@ -40,8 +51,8 @@ const editComment = gql`
 `;
 
 export {
-    getComment,
-    addComment,
-    removeComment,
-    editComment,
+  getComment,
+  addComment,
+  removeComment,
+  editComment,
 };
