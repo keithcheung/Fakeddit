@@ -94,11 +94,12 @@ class Comment extends Component {
    */
   displayComments() {
     const { comments } = this.state;
+    const { id } = this.props.comment;
     if (!comments) {
       return null;
     } else {
       return (
-        <ListGroup style={{ border: '0 none' }}>
+        <ListGroup key={id} style={{ border: '0 none' }}>
           <CommentContainer
             handleDeleteComment={this.handleDeleteComment}
             postId={this.props.postId}
@@ -226,6 +227,7 @@ class Comment extends Component {
   render() {
     const { loading } = this.props.data;
     const { editingComment, newComment } = this.state;
+
     if (loading) {
       return null;
     } else if (editingComment) {
