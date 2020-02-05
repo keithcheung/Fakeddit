@@ -22,6 +22,7 @@ import {
   downvotePost
 } from '../../queries/posts/post-queries';
 
+import { removeComment } from '../../queries/comments/comment-queries';
 
 import styled from 'styled-components';
 
@@ -90,17 +91,43 @@ class PostFooter extends Component {
   };
 
   /**
+ * Takes the ID of a comment and will invoke the removeComment mutation
+ * @param {ID} id - id of the comment
+ */
+  handleDeleteComment = id => {
+    const { postId } = this.props;
+    const { uid } = this.state;
+
+    try {
+      this.props.removeComment({
+        variables: { id: id }
+      }).then(function deleteChildren(res) {
+        const { comments } = res.data.removeComment;
+        comments.map(comment => {
+          this.handleDeleteComment(comment.id);
+        })
+      }.bind(this));
+    } catch (err) {
+      console.error(`Failed to remove comment with error ${err}`);
+    }
+  };
+
+  /**
    * Removes the post 
    * TODO: remove comments that are integrated on the post
    */
   deletePost = () => {
     const { id } = this.state;
+    const { comments } = this.props;
+    debugger;
     try {
       this.props.removePost({
         variables: { id },
         refetchQueries: [{ query: getPosts }]
       });
+      comments.map(comment => this.handleDeleteComment(comment.id));
       this.props.history.push('/');
+
     } catch (err) {
       console.error(`Failed to remove post with error message: ${err}`)
     }
@@ -207,5 +234,6 @@ export default compose(
   graphql(editPost, { name: 'editPost' }),
   graphql(removePost, { name: 'removePost' }),
   graphql(upvotePost, { name: 'upvotePost' }),
-  graphql(downvotePost, { name: 'downvotePost' })
+  graphql(downvotePost, { name: 'downvotePost' }),
+  graphql(removeComment, { name: 'removeComment' }),
 )(withRouter(PostFooter));

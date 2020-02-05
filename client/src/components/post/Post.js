@@ -74,7 +74,7 @@ class Post extends Component {
    * handles displaying the Post and some of it's footer
    */
   displayPost() {
-    const { heading, text, upvotes, uid } = this.props.data.post;
+    const { heading, text, upvotes, uid, comments } = this.props.data.post;
     const { postId, userId } = this.state;
     const owner = userId === uid;
     return (
@@ -103,6 +103,7 @@ class Post extends Component {
           text={text}
           upvotes={upvotes}
           mainPage={false}
+          comments={comments}
         />
       </div>
     );
