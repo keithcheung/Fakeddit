@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { addComment } from '../../queries/comments/comment-queries';
 import { getPost } from '../../queries/posts/post-queries';
 
 import TextField from '@material-ui/core/TextField';
 
 import styled from 'styled-components';
+import { findUserName } from '../../queries/user/user-queries';
+
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -31,17 +33,18 @@ const PostModalContainer = styled.div`
 class PostModalContent extends Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', name: 'kcheung' };
+    this.state = { comment: '', name: '' };
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
     this.onCommentChange = this.onCommentChange.bind(this);
   }
 
   handleSubmitComment() {
-    const { comment, name } = this.state;
+    const { comment } = this.state;
+    const { username } = this.props.username.user;
     const { postId } = this.props;
     try {
       this.props.addComment({
-        variables: { name: name, uid: postId, text: comment },
+        variables: { name: username, uid: postId, text: comment },
         refetchQueries: [{ query: getPost, variables: { id: postId } }]
       });
       this.props.handleClose();
@@ -80,4 +83,14 @@ class PostModalContent extends Component {
   }
 }
 
-export default graphql(addComment, { name: 'addComment' })(PostModalContent);
+export default compose(graphql(addComment, { name: 'addComment' }),
+  graphql(findUserName, {
+    name: 'username',
+    options: props => {
+      return {
+        variables: {
+          id: sessionStorage.userId,
+        }
+      };
+    }
+  }))(PostModalContent);
